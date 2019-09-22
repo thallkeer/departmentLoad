@@ -1,13 +1,10 @@
 package dev.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.util.Objects;
+import javax.persistence.*;
 
 @Entity
-public class StudyGroup {
+@Table(name = "StudyGroup", schema = "dbo", catalog = "DepartmentLoad")
+public class StudyGroupEntity {
     private String groupNumber;
     private int studentsCount;
     private String specialityCode;
@@ -47,11 +44,11 @@ public class StudyGroup {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        StudyGroup that = (StudyGroup) o;
+        StudyGroupEntity that = (StudyGroupEntity) o;
 
         if (studentsCount != that.studentsCount) return false;
-        if (!Objects.equals(groupNumber, that.groupNumber)) return false;
-        if (!Objects.equals(specialityCode, that.specialityCode))
+        if (groupNumber != null ? !groupNumber.equals(that.groupNumber) : that.groupNumber != null) return false;
+        if (specialityCode != null ? !specialityCode.equals(that.specialityCode) : that.specialityCode != null)
             return false;
 
         return true;

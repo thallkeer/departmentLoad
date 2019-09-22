@@ -1,11 +1,10 @@
 package dev.model;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name = "GroupLoads", schema = "dbo", catalog = "DepartmentLoad")
-public class GroupLoad {
+public class GroupLoadEntity {
     private int volumeHours;
     private int semester;
     private int studyType;
@@ -111,18 +110,17 @@ public class GroupLoad {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        GroupLoad groupLoad = (GroupLoad) o;
+        GroupLoadEntity that = (GroupLoadEntity) o;
 
-        if (volumeHours != groupLoad.volumeHours) return false;
-        if (semester != groupLoad.semester) return false;
-        if (studyType != groupLoad.studyType) return false;
-        if (studyYear != groupLoad.studyYear) return false;
-        if (teacherId != groupLoad.teacherId) return false;
-        if (disciplineId != groupLoad.disciplineId) return false;
-        if (groupStudiesId != groupLoad.groupStudiesId) return false;
-        if (groupLoadId != groupLoad.groupLoadId) return false;
-        if (!Objects.equals(groupNumber, groupLoad.groupNumber))
-            return false;
+        if (volumeHours != that.volumeHours) return false;
+        if (semester != that.semester) return false;
+        if (studyType != that.studyType) return false;
+        if (studyYear != that.studyYear) return false;
+        if (teacherId != that.teacherId) return false;
+        if (disciplineId != that.disciplineId) return false;
+        if (groupStudiesId != that.groupStudiesId) return false;
+        if (groupLoadId != that.groupLoadId) return false;
+        if (groupNumber != null ? !groupNumber.equals(that.groupNumber) : that.groupNumber != null) return false;
 
         return true;
     }

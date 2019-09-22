@@ -1,13 +1,10 @@
 package dev.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.util.Objects;
+import javax.persistence.*;
 
 @Entity
-public class Teachers {
+@Table(name = "Teachers", schema = "dbo", catalog = "DepartmentLoad")
+public class TeacherEntity {
     private int teacherId;
     private String firstName;
     private String lastName;
@@ -16,7 +13,7 @@ public class Teachers {
     private int positionId;
 
     @Id
-    @Column(name = "TeacherID", nullable = false)
+    @Column(name = "teacher_id", nullable = false)
     public int getTeacherId() {
         return teacherId;
     }
@@ -26,7 +23,7 @@ public class Teachers {
     }
 
     @Basic
-    @Column(name = "FirstName", nullable = false, length = 450)
+    @Column(name = "first_name", nullable = false, length = 450)
     public String getFirstName() {
         return firstName;
     }
@@ -36,7 +33,7 @@ public class Teachers {
     }
 
     @Basic
-    @Column(name = "LastName", nullable = false, length = 450)
+    @Column(name = "last_name", nullable = false, length = 450)
     public String getLastName() {
         return lastName;
     }
@@ -46,7 +43,7 @@ public class Teachers {
     }
 
     @Basic
-    @Column(name = "Patronym", nullable = false, length = 450)
+    @Column(name = "patronym", nullable = false, length = 450)
     public String getPatronym() {
         return patronym;
     }
@@ -56,7 +53,7 @@ public class Teachers {
     }
 
     @Basic
-    @Column(name = "DepartmentID", nullable = false)
+    @Column(name = "department_id", nullable = false)
     public int getDepartmentId() {
         return departmentId;
     }
@@ -66,7 +63,7 @@ public class Teachers {
     }
 
     @Basic
-    @Column(name = "PositionID", nullable = false)
+    @Column(name = "position_id", nullable = false)
     public int getPositionId() {
         return positionId;
     }
@@ -80,14 +77,14 @@ public class Teachers {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Teachers teachers = (Teachers) o;
+        TeacherEntity that = (TeacherEntity) o;
 
-        if (teacherId != teachers.teacherId) return false;
-        if (departmentId != teachers.departmentId) return false;
-        if (positionId != teachers.positionId) return false;
-        if (!Objects.equals(firstName, teachers.firstName)) return false;
-        if (!Objects.equals(lastName, teachers.lastName)) return false;
-        if (!Objects.equals(patronym, teachers.patronym)) return false;
+        if (teacherId != that.teacherId) return false;
+        if (departmentId != that.departmentId) return false;
+        if (positionId != that.positionId) return false;
+        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
+        if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
+        if (patronym != null ? !patronym.equals(that.patronym) : that.patronym != null) return false;
 
         return true;
     }

@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "PersonalLoads", schema = "dbo", catalog = "DepartmentLoad")
-public class PersonalLoad {
+public class PersonalLoadEntity {
     private int studentsCount;
     private int teacherId;
     private int individualClassId;
@@ -55,7 +55,7 @@ public class PersonalLoad {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PersonalLoad that = (PersonalLoad) o;
+        PersonalLoadEntity that = (PersonalLoadEntity) o;
 
         if (studentsCount != that.studentsCount) return false;
         if (teacherId != that.teacherId) return false;

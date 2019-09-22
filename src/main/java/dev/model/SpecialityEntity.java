@@ -1,11 +1,10 @@
 package dev.model;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name = "Specialities", schema = "dbo", catalog = "DepartmentLoad")
-public class Speciality {
+public class SpecialityEntity {
     private String code;
     private String specialityName;
     private int educationLevel;
@@ -45,11 +44,11 @@ public class Speciality {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Speciality that = (Speciality) o;
+        SpecialityEntity that = (SpecialityEntity) o;
 
         if (educationLevel != that.educationLevel) return false;
-        if (!Objects.equals(code, that.code)) return false;
-        if (!Objects.equals(specialityName, that.specialityName))
+        if (code != null ? !code.equals(that.code) : that.code != null) return false;
+        if (specialityName != null ? !specialityName.equals(that.specialityName) : that.specialityName != null)
             return false;
 
         return true;
