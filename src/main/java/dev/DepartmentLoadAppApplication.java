@@ -11,14 +11,9 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 		DataSourceTransactionManagerAutoConfiguration.class,
 		HibernateJpaAutoConfiguration.class,
         org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class
-}, scanBasePackages = "dev")
+})
 
-public class DepartmentLoadAppApplication /*extends SpringBootServletInitializer*/ {
-//	@Override
-//	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-//		return builder.sources(DepartmentLoadAppApplication.class);
-//	}
-
+public class DepartmentLoadAppApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DepartmentLoadAppApplication.class, args);
 	}

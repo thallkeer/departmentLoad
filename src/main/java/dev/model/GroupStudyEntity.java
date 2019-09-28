@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "GroupStudies", schema = "dbo", catalog = "DepartmentLoad")
-public class GroupStudieEntity {
+public class GroupStudyEntity {
     private int groupClassId;
     private String groupClassName;
 
@@ -33,7 +33,7 @@ public class GroupStudieEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        GroupStudieEntity that = (GroupStudieEntity) o;
+        GroupStudyEntity that = (GroupStudyEntity) o;
 
         if (groupClassId != that.groupClassId) return false;
         if (groupClassName != null ? !groupClassName.equals(that.groupClassName) : that.groupClassName != null)

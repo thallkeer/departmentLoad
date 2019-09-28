@@ -1,12 +1,17 @@
 package dev.model;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Positions", schema = "dbo", catalog = "DepartmentLoad")
-public class PositionsEntity {
+public class PositionEntity {
     private int positionId;
     private String positionName;
+
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "position")
+    private List<TeacherEntity> teachers;
 
     @Id
     @Column(name = "PositionID", nullable = false)
@@ -33,18 +38,26 @@ public class PositionsEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PositionsEntity that = (PositionsEntity) o;
+        PositionEntity that = (PositionEntity) o;
 
         if (positionId != that.positionId) return false;
-        if (positionName != null ? !positionName.equals(that.positionName) : that.positionName != null) return false;
-
-        return true;
+        if (!Objects.equals(positionName, that.positionName)) return false;
+        return Objects.equals(teachers, that.teachers);
     }
 
     @Override
     public int hashCode() {
         int result = positionId;
         result = 31 * result + (positionName != null ? positionName.hashCode() : 0);
+        result = 31 * result + teachers.hashCode();
         return result;
+    }
+
+    public List<TeacherEntity> getTeachers() {
+        return teachers;
+    }
+
+    public void setTeachers(List<TeacherEntity> teachers) {
+        this.teachers = teachers;
     }
 }

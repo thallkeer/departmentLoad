@@ -1,6 +1,7 @@
 package dev.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Departments", schema = "dbo", catalog = "DepartmentLoad")
@@ -36,7 +37,7 @@ public class DepartmentEntity {
         DepartmentEntity that = (DepartmentEntity) o;
 
         if (departmentId != that.departmentId) return false;
-        if (departmentName != null ? !departmentName.equals(that.departmentName) : that.departmentName != null)
+        if (!Objects.equals(departmentName, that.departmentName))
             return false;
 
         return true;

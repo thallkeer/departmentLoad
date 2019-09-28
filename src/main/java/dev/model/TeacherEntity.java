@@ -1,16 +1,19 @@
 package dev.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
-@Table(name = "Teachers", schema = "dbo", catalog = "DepartmentLoad")
+@Table(name = "\"Teachers\"", schema = "dbo")
 public class TeacherEntity {
     private int teacherId;
     private String firstName;
     private String lastName;
     private String patronym;
     private int departmentId;
-    private int positionId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "position_id")
+    private PositionEntity position;
 
     @Id
     @Column(name = "teacher_id", nullable = false)
@@ -62,14 +65,12 @@ public class TeacherEntity {
         this.departmentId = departmentId;
     }
 
-    @Basic
-    @Column(name = "position_id", nullable = false)
-    public int getPositionId() {
-        return positionId;
+    public PositionEntity getPosition() {
+        return position;
     }
 
-    public void setPositionId(int positionId) {
-        this.positionId = positionId;
+    public void setPosition(PositionEntity position) {
+        this.position = position;
     }
 
     @Override
@@ -81,12 +82,10 @@ public class TeacherEntity {
 
         if (teacherId != that.teacherId) return false;
         if (departmentId != that.departmentId) return false;
-        if (positionId != that.positionId) return false;
-        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
-        if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
-        if (patronym != null ? !patronym.equals(that.patronym) : that.patronym != null) return false;
-
-        return true;
+        if (!Objects.equals(position,that.position)) return false;
+        if (!Objects.equals(firstName, that.firstName)) return false;
+        if (!Objects.equals(lastName, that.lastName)) return false;
+        return Objects.equals(patronym, that.patronym);
     }
 
     @Override
@@ -96,7 +95,7 @@ public class TeacherEntity {
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (patronym != null ? patronym.hashCode() : 0);
         result = 31 * result + departmentId;
-        result = 31 * result + positionId;
+        result = 31 * result + (position != null ? position.hashCode() : 0);
         return result;
     }
 }
