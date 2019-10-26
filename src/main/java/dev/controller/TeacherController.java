@@ -1,23 +1,31 @@
 package dev.controller;
 
-import dev.model.TeacherEntity;
-import dev.service.ITeacherService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import dev.model.Teacher;
+import dev.service.impl.TeacherService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping(value = "/teachers")
+@RequestMapping(value = "/api")
 public class TeacherController {
 
-    @Autowired
-    private ITeacherService teacherService;
+    private final TeacherService teacherService;
 
-    @GetMapping(value = "/all")
-    public List<TeacherEntity> getAllTeachers(){
-        return teacherService.getAll();
+    public TeacherController(TeacherService teacherService) {
+        this.teacherService = teacherService;
+    }
+
+    @GetMapping("/teachers")
+//    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<List<Teacher>> getAllTeachers(){
+        return ResponseEntity.ok(teacherService.getAll());
+    }
+
+    @GetMapping("/teachers/{id}")
+    public ResponseEntity<Teacher> getTeacher(@PathVariable("id") int id){
+        return ResponseEntity.ok(teacherService.getById(id));
     }
 }
