@@ -27,7 +27,7 @@ export const getTeachers = dispatch => {
   dispatch({
     type: GET_TEACHERS + START
   });
-  axios.get("teachers").then(result => {
+  axios.get("teacher/").then(result => {
     const teachers = [];
 
     result.data.forEach(item => {

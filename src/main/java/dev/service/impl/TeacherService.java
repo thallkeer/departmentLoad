@@ -5,6 +5,7 @@ import dev.repository.TeacherRepository;
 import dev.service.IService;
 
 import java.util.List;
+import java.util.Optional;
 
 @org.springframework.stereotype.Service
 public class TeacherService implements IService<Teacher> {
@@ -26,18 +27,18 @@ public class TeacherService implements IService<Teacher> {
     }
 
     @Override
-    public Teacher getById(int id) {
-        return null;
+    public Optional<Teacher> getById(int id) {
+        return teacherRepository.findById(id);
     }
 
     @Override
-    public void add(Teacher entity) {
-
+    public Teacher add(Teacher entity) {
+        return teacherRepository.saveAndFlush(entity);
     }
 
     @Override
-    public void update(Teacher entity) {
-
+    public Teacher update(Teacher entity) {
+        return teacherRepository.saveAndFlush(entity);
     }
 
     @Override

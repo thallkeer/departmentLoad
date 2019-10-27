@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Header from "../components/Header";
-import TeachersList from "../components/Teachers/TeachersList";
+import TeachersList from "../components/Teacher/TeachersList";
 import NotFound from "../components/NotFound";
 
 export default function AppRouter() {

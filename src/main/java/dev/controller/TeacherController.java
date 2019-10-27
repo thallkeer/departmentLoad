@@ -6,10 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api/teacher")
 public class TeacherController {
 
     private final TeacherService teacherService;
@@ -18,14 +19,15 @@ public class TeacherController {
         this.teacherService = teacherService;
     }
 
-    @GetMapping("/teachers")
+    @GetMapping("/")
 //    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<List<Teacher>> getAllTeachers(){
         return ResponseEntity.ok(teacherService.getAll());
     }
 
-    @GetMapping("/teachers/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Teacher> getTeacher(@PathVariable("id") int id){
-        return ResponseEntity.ok(teacherService.getById(id));
+        Optional<Teacher> teacher = teacherService.getById(id);
+        return teacher.isPresent() ? ResponseEntity.ok(teacher.get()) : ResponseEntity.notFound().build();
     }
 }
