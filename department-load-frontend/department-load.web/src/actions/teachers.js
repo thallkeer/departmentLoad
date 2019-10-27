@@ -43,7 +43,7 @@ export const deleteTeacher = (dispatch, id) => {
 };
 
 export const addTeacher = (dispatch, teacher) => {
-  axios.post("teachers/add", { teacher }).then(res => {
+  axios.post("teacher/add", { teacher }).then(res => {
     console.log(res);
     console.log(res.data);
   });

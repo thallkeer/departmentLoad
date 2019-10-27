@@ -8,6 +8,9 @@ const Header = () => (
       <NavLink to="/teachers" activeClassName="activeNav" exact={true}>
         Teachers
       </NavLink>
+      <NavLink to="/positions" activeClassName="activeNav" exact={true}>
+        Positions
+      </NavLink>
     </div>
   </header>
 );
