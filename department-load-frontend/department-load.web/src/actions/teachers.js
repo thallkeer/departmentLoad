@@ -4,7 +4,8 @@ import {
   DELETE_TEACHER,
   FAIL,
   START,
-  SUCCESS
+  SUCCESS,
+  ADD_TEACHER
 } from "../constants";
 
 const _getTeachers = teachers => ({
@@ -15,6 +16,11 @@ const _getTeachers = teachers => ({
 const _deleteTeacher = id => ({
   type: DELETE_TEACHER,
   payload: id
+});
+
+const _addTeacher = teacher => ({
+  type: ADD_TEACHER,
+  payload: teacher
 });
 
 export const getTeachers = dispatch => {
@@ -34,4 +40,11 @@ export const getTeachers = dispatch => {
 
 export const deleteTeacher = (dispatch, id) => {
   dispatch(_deleteTeacher(id));
+};
+
+export const addTeacher = (dispatch, teacher) => {
+  axios.post("teachers/add", { teacher }).then(res => {
+    console.log(res);
+    console.log(res.data);
+  });
 };
