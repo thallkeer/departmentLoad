@@ -1,10 +1,8 @@
-import React, { useContext } from "react";
-import { ActionsContext } from "../context/TeachersListContext";
+import React from "react";
 import Button from "react-bootstrap/Button";
 
-export default function ActionsButtons() {
-  const { onEdit, onDelete, id } = useContext(ActionsContext);
-
+export default function ActionsButtons(props) {
+  const { onEdit, onDelete } = props;
   return (
     <div>
       <Button
@@ -12,7 +10,7 @@ export default function ActionsButtons() {
         floating="true"
         color="white"
         variant="success"
-        onClick={() => onEdit(id)}
+        onClick={onEdit}
       >
         Edit
       </Button>
@@ -21,7 +19,7 @@ export default function ActionsButtons() {
         floating="true"
         color="white"
         variant="danger"
-        onClick={() => onDelete(id)}
+        onClick={onDelete}
       >
         Delete
       </Button>

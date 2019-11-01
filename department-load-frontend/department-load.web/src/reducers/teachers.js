@@ -15,17 +15,10 @@ export const teacherReducer = (state, action) => {
       };
 
     case GET_TEACHERS + SUCCESS:
-      const positionsList = {};
-      action.payload.forEach(teacher => {
-        const id = teacher.position.positionId;
-        const name = teacher.position.positionName;
-        positionsList[id] = name;
-      });
       return {
         ...state,
         loading: false,
-        teachers: action.payload,
-        positions: positionsList
+        teachers: action.payload
       };
 
     case ADD_TEACHER + SUCCESS:
@@ -33,6 +26,7 @@ export const teacherReducer = (state, action) => {
         ...state,
         teachers: [...state.teachers, action.payload]
       };
+
     case DELETE_TEACHER:
       const currentTeachers = state.teachers.filter(
         t => t.teacherId !== action.payload

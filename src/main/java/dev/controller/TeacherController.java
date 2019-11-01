@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT})
 @RestController
 @RequestMapping(value = "/api/teacher")
 public class TeacherController {
@@ -29,5 +29,11 @@ public class TeacherController {
     public ResponseEntity<Teacher> getTeacher(@PathVariable("id") int id){
         Optional<Teacher> teacher = teacherService.getById(id);
         return teacher.isPresent() ? ResponseEntity.ok(teacher.get()) : ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<Teacher> addPosition(@RequestBody Teacher teacher){
+        Teacher t = teacher;
+        return ResponseEntity.ok(teacherService.add(teacher));
     }
 }

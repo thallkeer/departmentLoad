@@ -12,10 +12,10 @@ export const useAddForm = callback => {
 
   const handleInputChange = event => {
     event.persist();
-    console.log(inputs);
+    const { name, value } = event.target;
     setInputs(inputs => ({
       ...inputs,
-      [event.target.name]: event.target.value
+      [name]: value
     }));
   };
 

@@ -1,35 +1,37 @@
-import React, { useContext, useState } from "react";
-import { Form, Button, Modal, Row, Col, Container } from "react-bootstrap";
-import { useAddForm } from "../../hooks/useAddForm";
-import { TeachersListContext } from "../../context/TeachersListContext";
+import React, { useState } from "react";
+import { Form, Button, Modal } from "react-bootstrap";
 
 export default function AddTeacher(props) {
-  const { show, handleClose, teacher, positions } = props;
-  const isEditing = !Object.is(teacher, null);
-  if (!isEditing) {
-    teacher = {
-      firstName: "",
-      lastName: "",
-      patronym: "",
-      position: {
-        positionId: positions[0]
-      }
-    };
-  }
-  const title = isEditing ? "Edit teacher" : "Add teacher";
-  const submitText = isEditing ? "Save changes" : "Submit";
-  const { submitTeacher } = useContext(TeachersListContext);
-  const [formState, setFormState] = useState(teacher);
-
-  const submitForm = () => {
-    submitTeacher(JSON.stringify(inputs));
+  const initialState = {
+    firstName: "",
+    lastName: "",
+    patronym: "",
+    position: {
+      positionId: 0
+    }
   };
 
-  const { inputs, handleInputChange, handleSubmit } = useAddForm(submitForm);
+  const { show, handleClose, submitTeacher, positions, teacher } = props;
+  const [teacherState, setTeacherState] = useState(teacher || initialState);
+  const isEditing = !Object.is(teacher, null);
+  const title = isEditing ? "Edit teacher" : "Add teacher";
+  const submitText = isEditing ? "Save changes" : "Submit";
+
+  const submitForm = () => {
+    submitTeacher(JSON.stringify(teacherState));
+  };
+
+  const handleInputChange = e => {
+    const { name, value } = e.target;
+    setTeacherState({
+      ...teacherState,
+      [name]: value
+    });
+  };
 
   return (
     <Modal size="lg" show={show} onHide={handleClose}>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={submitForm}>
         <Modal.Header closeButton>
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
@@ -40,8 +42,8 @@ export default function AddTeacher(props) {
               type="text"
               required
               placeholder="Enter first name"
-              name={formState.firstName}
-              value={formState.firstName}
+              name="firstName"
+              value={teacherState.firstName}
               onChange={handleInputChange}
             />
           </Form.Group>
@@ -52,8 +54,8 @@ export default function AddTeacher(props) {
               required
               placeholder="Enter last name"
               name="lastName"
+              value={teacherState.lastName}
               onChange={handleInputChange}
-              value={inputs.lastName || ""}
             />
           </Form.Group>
           <Form.Group>
@@ -63,7 +65,7 @@ export default function AddTeacher(props) {
               required
               placeholder="Enter patronym"
               name="patronym"
-              value={inputs.patronym || ""}
+              value={teacherState.patronym}
               onChange={handleInputChange}
             />
           </Form.Group>
@@ -72,18 +74,12 @@ export default function AddTeacher(props) {
             <Form.Control
               as="select"
               name="position"
-              value={
-                (isEditing &&
-                  teacher.position &&
-                  teacher.position.positionId) ||
-                inputs.position ||
-                ""
-              }
               onChange={handleInputChange}
+              value={teacherState.position.positionId}
             >
-              {Object.entries(positions).map(entry => (
-                <option value={entry[0]} key={entry[0]}>
-                  {entry[1]}
+              {positions.map(pos => (
+                <option key={pos.positionId} value={pos.positionId}>
+                  {pos.positionName}
                 </option>
               ))}
             </Form.Control>

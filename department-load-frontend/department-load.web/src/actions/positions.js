@@ -3,7 +3,6 @@ import {
   GET_POSITIONS,
   DELETE_POSITION,
   ADD_POSITION,
-  FAIL,
   START,
   SUCCESS
 } from "../constants";
@@ -46,5 +45,6 @@ export const addPosition = (dispatch, position) => {
   axios.post("position/add", { position }).then(res => {
     console.log(res);
     console.log(res.data);
+    _addPosition(res.data);
   });
 };

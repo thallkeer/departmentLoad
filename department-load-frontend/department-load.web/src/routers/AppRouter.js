@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Header from "../components/Header";
 import TeachersList from "../components/Teacher/TeachersList";
 import NotFound from "../components/NotFound";
@@ -8,7 +8,7 @@ import PositionList from "../components/Position/PositionList";
 
 export default function AppRouter() {
   return (
-    <BrowserRouter>
+    <Router>
       <Container>
         <Header />
         <Switch>
@@ -21,6 +21,6 @@ export default function AppRouter() {
           <Route component={NotFound} />
         </Switch>
       </Container>
-    </BrowserRouter>
+    </Router>
   );
 }

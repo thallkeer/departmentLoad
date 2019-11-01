@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import { positionReducer } from "../../reducers/positions";
 import { getPositions, deletePosition } from "../../actions/positions";
-import { Container, Table, Button } from "react-bootstrap";
+import { Container, Table } from "react-bootstrap";
 import { ActionsContext } from "../../context/TeachersListContext";
-import useModal from "../../hooks/useModal";
+// import useModal from "../../hooks/useModal";
 import ActionsButtons from "../ActionsButtons";
 
 const initialState = {
@@ -13,7 +13,6 @@ const initialState = {
 
 export default function PositionList() {
   const [positionsState, dispatch] = useReducer(positionReducer, initialState);
-  const { isShowing, toggle } = useModal();
 
   useEffect(() => {
     getPositions(dispatch);
