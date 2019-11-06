@@ -36,7 +36,7 @@ public class PositionController {
 
     @PutMapping("/update")
     public ResponseEntity<Position> updatePosition(@RequestBody Position position){
-        return ResponseEntity.ok(positionService.add(position));
+        return ResponseEntity.ok(positionService.update(position));
     }
 
     @DeleteMapping("/delete/{id}")

@@ -9,16 +9,19 @@ import { useTeachers } from "../../hooks/useTeachers";
 export default function TeacherList() {
   const positions = usePositions();
   const { isShowing, toggle } = useModal();
-  const { teachers, addTeacher, deleteTeacher } = useTeachers();
+  const { teachers, addTeacher, deleteTeacher, updateTeacher } = useTeachers();
   const [editableTeacher, setEditableTeacher] = useState({});
+  const [submitFunction, setSubmitFunction] = useState(null);
 
   const editTeacher = id => {
     setEditableTeacher(teachers.find(t => t.teacherId === id));
+    setSubmitFunction(() => updateTeacher);
     toggle();
   };
 
   const createTeacher = () => {
     setEditableTeacher(null);
+    setSubmitFunction(() => addTeacher);
     toggle();
   };
 
@@ -66,7 +69,7 @@ export default function TeacherList() {
         <AddTeacher
           show={isShowing}
           handleClose={toggle}
-          submitTeacher={addTeacher}
+          submitTeacher={submitFunction}
           positions={positions}
           teacher={editableTeacher}
         />

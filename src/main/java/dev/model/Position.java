@@ -1,13 +1,15 @@
 package dev.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+//        property  = "positionId",
+//        scope     = Integer.class)
 public class Position {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,8 +20,8 @@ public class Position {
     private String positionName;
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "position")
-    @JsonBackReference
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    //@JsonBackReference
+    @JsonIgnore
     private List<Teacher> teachers;
 
     public int getPositionId() {

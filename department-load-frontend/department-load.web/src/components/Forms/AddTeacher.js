@@ -3,11 +3,13 @@ import { Form, Button, Modal } from "react-bootstrap";
 
 export default function AddTeacher(props) {
   const initialState = {
+    teacherId: 0,
     firstName: "",
     lastName: "",
     patronym: "",
     position: {
-      positionId: 0
+      positionId: 0,
+      positionName: ""
     }
   };
 
@@ -23,10 +25,21 @@ export default function AddTeacher(props) {
 
   const handleInputChange = e => {
     const { name, value } = e.target;
+
+    const newState = { ...teacherState };
+    setNestedKey(newState, name.split("."), value);
+
     setTeacherState({
-      ...teacherState,
-      [name]: value
+      ...newState
     });
+  };
+
+  const setNestedKey = (obj, path, value) => {
+    if (path.length === 1) {
+      obj[path] = value;
+      return;
+    }
+    return setNestedKey(obj[path[0]], path.slice(1), value);
   };
 
   return (
@@ -73,7 +86,7 @@ export default function AddTeacher(props) {
             <Form.Label>Position</Form.Label>
             <Form.Control
               as="select"
-              name="position"
+              name="position.positionId"
               onChange={handleInputChange}
               value={teacherState.position.positionId}
             >

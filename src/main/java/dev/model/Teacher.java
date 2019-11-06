@@ -1,8 +1,5 @@
 package dev.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -23,9 +20,9 @@ public class Teacher {
     private String patronym;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Position_ID")
-    @JsonManagedReference
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Position position;
+
+    public Teacher() {}
 
     public int getTeacherId() {
         return teacherId;
@@ -42,7 +39,6 @@ public class Teacher {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-
 
     public String getLastName() {
         return lastName;

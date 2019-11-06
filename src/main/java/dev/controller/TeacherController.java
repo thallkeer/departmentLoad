@@ -2,17 +2,21 @@ package dev.controller;
 
 import dev.model.Teacher;
 import dev.service.impl.TeacherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT})
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
+
+//@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT})
 @RestController
 @RequestMapping(value = "/api/teacher")
 public class TeacherController {
-
+    private static final Logger logger = LoggerFactory.getLogger(TeacherController.class);
     private final TeacherService teacherService;
 
     public TeacherController(TeacherService teacherService) {
@@ -20,7 +24,6 @@ public class TeacherController {
     }
 
     @GetMapping("/")
-//    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<List<Teacher>> getAllTeachers(){
         return ResponseEntity.ok(teacherService.getAll());
     }
@@ -31,9 +34,19 @@ public class TeacherController {
         return teacher.isPresent() ? ResponseEntity.ok(teacher.get()) : ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<Teacher> addPosition(@RequestBody Teacher teacher){
-        Teacher t = teacher;
+    @RequestMapping(value = "/add", method = RequestMethod.POST,consumes = APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Teacher> addTeacher(@RequestBody Teacher teacher) {
         return ResponseEntity.ok(teacherService.add(teacher));
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    public ResponseEntity<Teacher> updateTeacher(@RequestBody Teacher teacher){
+        Teacher t = teacher;
+        return ResponseEntity.ok(teacherService.update(teacher));
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void deleteTeacher(@PathVariable("id") int id){
+        teacherService.delete(id);
     }
 }

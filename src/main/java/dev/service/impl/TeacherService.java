@@ -48,6 +48,6 @@ public class TeacherService implements IService<Teacher> {
 
     @Override
     public void delete(int id) {
-
+        teacherRepository.deleteById(id);
     }
 }
