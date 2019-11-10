@@ -4,28 +4,28 @@ import javax.persistence.*;
 
 @Entity
 public class GroupStudy {
-    private int groupClassId;
-    private String groupClassName;
+    private int ID;
+    private String name;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "GroupClassID", nullable = false)
-    public int getGroupClassId() {
-        return groupClassId;
+    public int getID() {
+        return ID;
     }
 
-    public void setGroupClassId(int groupClassId) {
-        this.groupClassId = groupClassId;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     @Basic
     @Column(name = "GroupClassName", nullable = false, length = 450)
-    public String getGroupClassName() {
-        return groupClassName;
+    public String getName() {
+        return name;
     }
 
-    public void setGroupClassName(String groupClassName) {
-        this.groupClassName = groupClassName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -35,8 +35,8 @@ public class GroupStudy {
 
         GroupStudy that = (GroupStudy) o;
 
-        if (groupClassId != that.groupClassId) return false;
-        if (groupClassName != null ? !groupClassName.equals(that.groupClassName) : that.groupClassName != null)
+        if (ID != that.ID) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null)
             return false;
 
         return true;
@@ -44,8 +44,8 @@ public class GroupStudy {
 
     @Override
     public int hashCode() {
-        int result = groupClassId;
-        result = 31 * result + (groupClassName != null ? groupClassName.hashCode() : 0);
+        int result = ID;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
 }

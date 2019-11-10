@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { Row, Container, Button, Table } from "react-bootstrap";
 import AddTeacher from "../Forms/AddTeacher";
 import useModal from "../../hooks/useModal";
-import { usePositions } from "../../hooks/usePositions";
+import { useSimpleEntity } from "../../hooks/useSimpleEntity";
 import ActionsButtons from "../ActionsButtons";
 import { useTeachers } from "../../hooks/useTeachers";
 
 export default function TeacherList() {
-  const positions = usePositions();
+  const { entities } = useSimpleEntity("position");
+  const positions = entities;
   const { isShowing, toggle } = useModal();
   const { teachers, addTeacher, deleteTeacher, updateTeacher } = useTeachers();
   const [editableTeacher, setEditableTeacher] = useState({});
@@ -53,7 +54,7 @@ export default function TeacherList() {
                 <td>{t.firstName}</td>
                 <td>{t.lastName}</td>
                 <td>{t.patronym}</td>
-                <td>{t.position.positionName}</td>
+                <td>{t.position.name}</td>
                 <td>
                   <ActionsButtons
                     onEdit={() => editTeacher(t.teacherId)}

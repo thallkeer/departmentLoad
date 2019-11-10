@@ -14,30 +14,30 @@ public class Position {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PositionID", nullable = false)
-    private int positionId;
+    private int ID;
     @Basic
     @Column(name = "PositionName", nullable = false, length = 450)
-    private String positionName;
+    private String name;
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "position")
     //@JsonBackReference
     @JsonIgnore
     private List<Teacher> teachers;
 
-    public int getPositionId() {
-        return positionId;
+    public int getID() {
+        return ID;
     }
 
-    public void setPositionId(int positionId) {
-        this.positionId = positionId;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
-    public String getPositionName() {
-        return positionName;
+    public String getName() {
+        return name;
     }
 
-    public void setPositionName(String positionName) {
-        this.positionName = positionName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Teacher> getTeachers() {
@@ -55,15 +55,15 @@ public class Position {
 
         Position that = (Position) o;
 
-        if (positionId != that.positionId) return false;
-        if (!Objects.equals(positionName, that.positionName)) return false;
+        if (ID != that.ID) return false;
+        if (!Objects.equals(name, that.name)) return false;
         return Objects.equals(teachers, that.teachers);
     }
 
     @Override
     public int hashCode() {
-        int result = positionId;
-        result = 31 * result + (positionName != null ? positionName.hashCode() : 0);
+        int result = ID;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + teachers.hashCode();
         return result;
     }

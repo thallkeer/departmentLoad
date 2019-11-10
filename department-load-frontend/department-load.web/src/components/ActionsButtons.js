@@ -11,6 +11,7 @@ export default function ActionsButtons(props) {
         color="white"
         variant="success"
         onClick={onEdit}
+        style={{ marginRight: "5px" }}
       >
         Edit
       </Button>

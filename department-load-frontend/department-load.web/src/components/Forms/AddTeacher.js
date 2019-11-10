@@ -8,8 +8,8 @@ export default function AddTeacher(props) {
     lastName: "",
     patronym: "",
     position: {
-      positionId: 0,
-      positionName: ""
+      id: 0,
+      name: ""
     }
   };
 
@@ -86,13 +86,13 @@ export default function AddTeacher(props) {
             <Form.Label>Position</Form.Label>
             <Form.Control
               as="select"
-              name="position.positionId"
+              name="position.id"
               onChange={handleInputChange}
-              value={teacherState.position.positionId}
+              value={teacherState.position.id}
             >
               {positions.map(pos => (
-                <option key={pos.positionId} value={pos.positionId}>
-                  {pos.positionName}
+                <option key={pos.id} value={pos.id}>
+                  {pos.name}
                 </option>
               ))}
             </Form.Control>

@@ -7,27 +7,27 @@ public class Discipline {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "DisciplineID", nullable = false)
-    private int disciplineId;
+    private int ID;
     @Basic
     @Column(name = "DisciplineName", nullable = false, length = 450)
-    private String disciplineName;
+    private String name;
 
 
-    public int getDisciplineId() {
-        return disciplineId;
+    public int getID() {
+        return ID;
     }
 
-    public void setDisciplineId(int disciplineId) {
-        this.disciplineId = disciplineId;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
 
-    public String getDisciplineName() {
-        return disciplineName;
+    public String getName() {
+        return name;
     }
 
-    public void setDisciplineName(String disciplineName) {
-        this.disciplineName = disciplineName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -37,8 +37,8 @@ public class Discipline {
 
         Discipline that = (Discipline) o;
 
-        if (disciplineId != that.disciplineId) return false;
-        if (disciplineName != null ? !disciplineName.equals(that.disciplineName) : that.disciplineName != null)
+        if (ID != that.ID) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null)
             return false;
 
         return true;
@@ -46,8 +46,8 @@ public class Discipline {
 
     @Override
     public int hashCode() {
-        int result = disciplineId;
-        result = 31 * result + (disciplineName != null ? disciplineName.hashCode() : 0);
+        int result = ID;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
 }
