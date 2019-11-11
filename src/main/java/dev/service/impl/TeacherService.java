@@ -18,7 +18,8 @@ public class TeacherService implements IService<Teacher> {
 
     @Override
     public List<Teacher> getAll() {
-        return teacherRepository.findAll();
+        List<Teacher> tmp =  teacherRepository.findAll();
+        return tmp;
     }
 
     @Override

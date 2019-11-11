@@ -1,6 +1,9 @@
 package dev.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -21,8 +24,15 @@ public class Teacher {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Position_ID")
     private Position position;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "teacher")
+    @JsonIgnore
+    private List<PersonalLoad> personalLoads;
 
     public Teacher() {}
+
+    public String getFullName(){
+        return String.format("%s %s %s", lastName, firstName, patronym);
+    }
 
     public int getTeacherId() {
         return teacherId;
@@ -87,4 +97,12 @@ public class Teacher {
         result = 31 * result + (position != null ? position.hashCode() : 0);
         return result;
     }
+
+//    public List<PersonalLoad> getPersonalLoads() {
+//        return personalLoads;
+//    }
+//
+//    public void setPersonalLoads(List<PersonalLoad> personalLoads) {
+//        this.personalLoads = personalLoads;
+//    }
 }

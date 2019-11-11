@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(value = "/api/position")
@@ -29,17 +31,17 @@ public class PositionController {
         return position.isPresent() ? ResponseEntity.ok(position.get()) : ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/add")
+    @RequestMapping(value = "/add", method = RequestMethod.POST,consumes = APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Position> addPosition(@RequestBody Position position){
         return ResponseEntity.ok(positionService.add(position));
     }
 
-    @PutMapping("/update")
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
     public ResponseEntity<Position> updatePosition(@RequestBody Position position){
         return ResponseEntity.ok(positionService.update(position));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deletePosition(@PathVariable("id") int id){
         positionService.delete(id);
     }

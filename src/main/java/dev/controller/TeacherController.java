@@ -41,7 +41,6 @@ public class TeacherController {
 
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
     public ResponseEntity<Teacher> updateTeacher(@RequestBody Teacher teacher){
-        Teacher t = teacher;
         return ResponseEntity.ok(teacherService.update(teacher));
     }
 

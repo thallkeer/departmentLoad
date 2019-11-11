@@ -4,13 +4,13 @@ import Header from "../components/Header";
 import TeachersList from "../components/Teacher/TeachersList";
 import NotFound from "../components/NotFound";
 import Container from "react-bootstrap/Container";
-import PositionList from "../components/Position/PositionList";
 import {
   Positions,
   Disciplines,
   GroupStudies,
   Specialities
 } from "../decorators/simpleEntitiesDecorators";
+import PersonalLoadList from "../components/PersonalLoad/PersonalLoadList";
 
 export default function AppRouter() {
   return (
@@ -24,6 +24,11 @@ export default function AppRouter() {
           <Route path="/disciplines" exact={true} component={Disciplines} />
           <Route path="/groupStudies" exact={true} component={GroupStudies} />
           <Route path="/specialities" exact={true} component={Specialities} />
+          <Route
+            path="/personalLoads"
+            exact={true}
+            component={PersonalLoadList}
+          />
           <Route component={NotFound} />
         </Switch>
       </Container>

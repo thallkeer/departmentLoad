@@ -1,15 +1,19 @@
 import React, { useState } from "react";
-import { ActionsContext } from "../../context/TeachersListContext";
 import ActionsButtons from "../ActionsButtons";
-import { Row, Container, Button, Table } from "react-bootstrap";
+import { Row, Container, Button, Table, Spinner } from "react-bootstrap";
 import useModal from "../../hooks/useModal";
 import { useSimpleEntity } from "../../hooks/useSimpleEntity";
+import AddSimpleEntity from "../Forms/AddSimpleEntity";
 
 export default function SimpleEntityList(props) {
   const { url, entityName } = props;
-  const { entities, addEntity, deleteEntity, updateEntity } = useSimpleEntity(
-    url
-  );
+  const {
+    entities,
+    loading,
+    addEntity,
+    deleteEntity,
+    updateEntity
+  } = useSimpleEntity(url);
   const [editableEntity, setEditableEntity] = useState({});
   const [submitFunction, setSubmitFunction] = useState(null);
   const { isShowing, toggle } = useModal();
@@ -25,6 +29,13 @@ export default function SimpleEntityList(props) {
     setSubmitFunction(() => addEntity);
     toggle();
   };
+
+  if (loading)
+    return (
+      <Spinner animation="border" role="status">
+        <span className="sr-only">Loading...</span>
+      </Spinner>
+    );
 
   return (
     <Container>
@@ -60,14 +71,15 @@ export default function SimpleEntityList(props) {
           </tbody>
         </Table>
       </Row>
-      {/* {isShowing && (
-        <AddTeacher
+      {isShowing && (
+        <AddSimpleEntity
           show={isShowing}
           handleClose={toggle}
           submitEntity={submitFunction}
           entity={editableEntity}
+          entityName={entityName}
         />
-      )} */}
+      )}
     </Container>
   );
 }

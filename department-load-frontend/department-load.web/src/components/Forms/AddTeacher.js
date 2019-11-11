@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
 
-export default function AddTeacher(props) {
-  const initialState = {
-    teacherId: 0,
-    firstName: "",
-    lastName: "",
-    patronym: "",
-    position: {
-      id: 0,
-      name: ""
-    }
-  };
+const initialState = {
+  teacherId: 0,
+  firstName: "",
+  lastName: "",
+  patronym: "",
+  position: {
+    id: 0,
+    name: ""
+  }
+};
 
+export default function AddTeacher(props) {
   const { show, handleClose, submitTeacher, positions, teacher } = props;
   const [teacherState, setTeacherState] = useState(teacher || initialState);
   const isEditing = !Object.is(teacher, null);

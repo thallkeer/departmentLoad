@@ -1,6 +1,7 @@
 package dev.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class Speciality {
@@ -46,8 +47,8 @@ public class Speciality {
         Speciality that = (Speciality) o;
 
         if (educationLevel != that.educationLevel) return false;
-        if (code != null ? !code.equals(that.code) : that.code != null) return false;
-        if (specialityName != null ? !specialityName.equals(that.specialityName) : that.specialityName != null)
+        if (!Objects.equals(code, that.code)) return false;
+        if (!Objects.equals(specialityName, that.specialityName))
             return false;
 
         return true;

@@ -41,8 +41,8 @@ export default function TeacherList() {
         <Table striped bordered hover responsive>
           <thead>
             <tr>
-              <th>First Name</th>
               <th>Last Name</th>
+              <th>First Name</th>
               <th>Patronym</th>
               <th>Position</th>
               <th></th>
@@ -51,8 +51,8 @@ export default function TeacherList() {
           <tbody>
             {teachers.map(t => (
               <tr key={t.teacherId}>
-                <td>{t.firstName}</td>
                 <td>{t.lastName}</td>
+                <td>{t.firstName}</td>
                 <td>{t.patronym}</td>
                 <td>{t.position.name}</td>
                 <td>
@@ -77,15 +77,4 @@ export default function TeacherList() {
       )}
     </Container>
   );
-}
-
-{
-  /* <BootstrapTable
-striped
-hover
-keyField="teacherId"
-data={teachersState.teachers}
-columns={getColumns(arrToObject(positions), addActions)}
-filter={filterFactory()}
-/> */
 }

@@ -4,13 +4,36 @@ import javax.persistence.*;
 
 @Entity
 public class PersonalLoad {
-    private int studentsCount;
-    private int teacherId;
-    private int individualClassId;
-    private int personalLoadId;
-
     @Basic
     @Column(name = "StudentsCount", nullable = false)
+    private int studentsCount;
+    @ManyToOne
+    @JoinColumn(name = "Teacher_ID", nullable = false)
+    private Teacher teacher;
+    @ManyToOne
+    @JoinColumn(name = "IndividualClass_ID", nullable = false)
+    private PersonalStudy personalStudy;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "PersonalLoadID", nullable = false)
+    private int personalLoadID;
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+
+    public PersonalStudy getPersonalStudy() {
+        return personalStudy;
+    }
+
+    public void setPersonalStudy(PersonalStudy personalStudy) {
+        this.personalStudy = personalStudy;
+    }
+
     public int getStudentsCount() {
         return studentsCount;
     }
@@ -19,35 +42,12 @@ public class PersonalLoad {
         this.studentsCount = studentsCount;
     }
 
-    @Basic
-    @Column(name = "TeacherID", nullable = false)
-    public int getTeacherId() {
-        return teacherId;
+    public int getPersonalLoadID() {
+        return personalLoadID;
     }
 
-    public void setTeacherId(int teacherId) {
-        this.teacherId = teacherId;
-    }
-
-    @Basic
-    @Column(name = "IndividualClassID", nullable = false)
-    public int getIndividualClassId() {
-        return individualClassId;
-    }
-
-    public void setIndividualClassId(int individualClassId) {
-        this.individualClassId = individualClassId;
-    }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PersonalLoadID", nullable = false)
-    public int getPersonalLoadId() {
-        return personalLoadId;
-    }
-
-    public void setPersonalLoadId(int personalLoadId) {
-        this.personalLoadId = personalLoadId;
+    public void setPersonalLoadID(int personalLoadID) {
+        this.personalLoadID = personalLoadID;
     }
 
     @Override
@@ -58,19 +58,17 @@ public class PersonalLoad {
         PersonalLoad that = (PersonalLoad) o;
 
         if (studentsCount != that.studentsCount) return false;
-        if (teacherId != that.teacherId) return false;
-        if (individualClassId != that.individualClassId) return false;
-        if (personalLoadId != that.personalLoadId) return false;
-
-        return true;
+        if (teacher != that.teacher) return false;
+        if (personalStudy != that.personalStudy) return false;
+        return personalLoadID == that.personalLoadID;
     }
 
     @Override
     public int hashCode() {
         int result = studentsCount;
-        result = 31 * result + teacherId;
-        result = 31 * result + individualClassId;
-        result = 31 * result + personalLoadId;
+        result = 31 * result + teacher.hashCode();
+        result = 31 * result + personalStudy.hashCode();
+        result = 31 * result + personalLoadID;
         return result;
     }
 }
