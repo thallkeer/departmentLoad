@@ -8,27 +8,37 @@ import {
   FormControl
 } from "react-bootstrap";
 import ActionsButtons from "../ActionsButtons";
-import { useSimpleEntity } from "../../hooks/useSimpleEntity";
-import { usePersonalLoad } from "../../hooks/usePersonalLoad";
+import {
+  usePersonalLoad,
+  usePersonalStudies
+} from "../../hooks/usePersonalLoad";
+import useModal from "../../hooks/useModal";
+import AddPersonalLoad from "./AddPersonalLoad";
 
 export default function PersonalLoadList() {
-  // studyTypes = useSimpleEntity('')
+  const { studyTypes } = usePersonalStudies();
   const [selectedType, setSelectedType] = useState("");
   const { personalLoads, loading } = usePersonalLoad();
-
-  const groups = [
-    {
-      key: "test key",
-      values: ["1", "2"]
-    }
-  ];
+  const [filteredLoads, setFilteredLoads] = useState(null);
+  const {
+    isShowing,
+    toggle,
+    createEntity,
+    editEntity,
+    editableEntity,
+    submitFunction
+  } = useModal(null, null);
 
   const renderGroupHeader = group => {
     return (
-      <tr>
+      <tr key={group.teacher}>
         <th
           colSpan="5"
-          style={{ backgroundColor: "#ADD8E6", borderColor: "#dee2e6" }}
+          style={{
+            backgroundColor: "#ADD8E6",
+            borderColor: "#dee2e6",
+            textAlign: "left"
+          }}
         >
           {group.teacher}
         </th>
@@ -38,14 +48,14 @@ export default function PersonalLoadList() {
 
   const renderGrouped = group => {
     return group.personalLoads.map(load => (
-      <tr>
-        <td>{load.studyTypeID}</td>
+      <tr key={load.personalLoadID}>
+        <td>{load.personalStudy.individualClassName}</td>
         <td>{load.studentsCount}</td>
-        <td>Test3</td>
+        <td>{load.studentsCount * load.personalStudy.volumeByPerson}</td>
         <td>
           <ActionsButtons
-            onEdit={() => console.log("Edit")}
-            onDelete={() => console.log("Delete")}
+            onEdit={() => console.log("Edit", load.personalLoadID)}
+            onDelete={() => console.log("Delete", load.personalLoadID)}
           ></ActionsButtons>
         </td>
       </tr>
@@ -59,10 +69,28 @@ export default function PersonalLoadList() {
     ]);
   };
 
-  const handleFilterChange = e => {};
+  const handleFilterChange = e => {
+    const id = e.target.value;
+    setSelectedType(id);
+
+    if (id === "0") setFilteredLoads(personalLoads);
+    else {
+      let loadsFiltered = JSON.parse(JSON.stringify(personalLoads));
+
+      loadsFiltered.forEach(load => {
+        const teacherLoads = load.personalLoads;
+        const filtered = teacherLoads.filter(
+          pl => pl.personalStudy.individualClassId.toString() === id
+        );
+        load.personalLoads = filtered.length === 0 ? null : filtered;
+      });
+
+      setFilteredLoads(loadsFiltered.filter(l => l.personalLoads));
+    }
+  };
 
   return (
-    <Container style={{ border: "1px solid red" }}>
+    <Container>
       <Row>
         <Col md={2}>
           <Button
@@ -80,8 +108,12 @@ export default function PersonalLoadList() {
             value={selectedType}
             onChange={handleFilterChange}
           >
-            <option>test</option>
-            <option>test1</option>
+            <option value="0">Все</option>
+            {studyTypes.map(t => (
+              <option key={t.individualClassId} value={t.individualClassId}>
+                {t.individualClassName}
+              </option>
+            ))}
           </FormControl>
         </Col>
       </Row>
@@ -92,12 +124,21 @@ export default function PersonalLoadList() {
               <th>Personal study name</th>
               <th>Student count</th>
               <th>Total volume</th>
-              <th></th>
+              <th colSpan="2"></th>
             </tr>
           </thead>
-          <tbody>{renderGroups(personalLoads)}</tbody>
+          <tbody>{renderGroups(filteredLoads || personalLoads)}</tbody>
         </Table>
       </Row>
+      {isShowing && (
+        <AddPersonalLoad
+          show={isShowing}
+          handleClose={toggle}
+          submitPersonalLoad={submitFunction}
+          personalLoad={editableEntity}
+          personalLoadName="Personal Load"
+        />
+      )}
     </Container>
   );
 }

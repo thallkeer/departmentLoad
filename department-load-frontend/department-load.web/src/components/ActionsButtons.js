@@ -11,7 +11,6 @@ export default function ActionsButtons(props) {
         color="white"
         variant="success"
         onClick={onEdit}
-        style={{ marginRight: "5px" }}
       >
         Edit
       </Button>
@@ -21,6 +20,7 @@ export default function ActionsButtons(props) {
         color="white"
         variant="danger"
         onClick={onDelete}
+        style={{ marginLeft: "5px" }}
       >
         Delete
       </Button>

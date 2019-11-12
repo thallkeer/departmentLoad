@@ -31,7 +31,7 @@ public class PersonalLoadService implements IService<PersonalLoad> {
     public PersonalLoadDto convertToDto(PersonalLoad load){
         PersonalLoadDto personalLoadDto = modelMapper.map(load, PersonalLoadDto.class);
         personalLoadDto.setTeacherFullName(load.getTeacher().getFullName());
-        personalLoadDto.setStudyTypeID(load.getPersonalStudy().getIndividualClassId());
+        //personalLoadDto.setStudyTypeID(load.getPersonalStudy().getIndividualClassId());
         return personalLoadDto;
     }
 

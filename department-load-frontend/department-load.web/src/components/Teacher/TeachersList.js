@@ -9,10 +9,9 @@ import { useTeachers } from "../../hooks/useTeachers";
 export default function TeacherList() {
   const { entities } = useSimpleEntity("position");
   const positions = entities;
-  const { isShowing, toggle } = useModal();
+  const { isShowing, toggle, submitFunction } = useModal();
   const { teachers, addTeacher, deleteTeacher, updateTeacher } = useTeachers();
   const [editableTeacher, setEditableTeacher] = useState({});
-  const [submitFunction, setSubmitFunction] = useState(null);
 
   const editTeacher = id => {
     setEditableTeacher(teachers.find(t => t.teacherId === id));

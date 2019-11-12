@@ -1,18 +1,20 @@
 package dev.dto;
 
+import dev.model.PersonalStudy;
+
 public class PersonalLoadDto {
     private int personalLoadID;
     private int studentsCount;
     private String teacherFullName;
-    private int studyTypeID;
+    private PersonalStudy personalStudy;
 
     public PersonalLoadDto() {}
 
-    public PersonalLoadDto(int personalLoadID, int studentCount, String teacherFullName, int studyTypeID) {
+    public PersonalLoadDto(int personalLoadID, int studentCount, String teacherFullName, PersonalStudy personalStudy) {
         this.personalLoadID = personalLoadID;
         this.studentsCount = studentCount;
         this.teacherFullName = teacherFullName;
-        this.studyTypeID = studyTypeID;
+        this.personalStudy = personalStudy;
     }
 
 
@@ -40,11 +42,11 @@ public class PersonalLoadDto {
         this.personalLoadID = personalLoadID;
     }
 
-    public int getStudyTypeID() {
-        return studyTypeID;
+    public PersonalStudy getPersonalStudy() {
+        return personalStudy;
     }
 
-    public void setStudyTypeID(int studyTypeID) {
-        this.studyTypeID = studyTypeID;
+    public void setPersonalStudy(PersonalStudy personalStudy) {
+        this.personalStudy = personalStudy;
     }
 }

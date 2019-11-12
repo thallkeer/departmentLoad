@@ -1,27 +1,42 @@
 import { useState } from "react";
 
-export const useAddForm = callback => {
-  const handleSubmit = event => {
-    if (event) {
-      event.preventDefault();
-      callback();
-    }
+export const useAddForm = (model, modelName, onSubmit) => {
+  const [formState, setFormState] = useState(model);
+  const isEditing = !Object.is(model, null);
+  const title = isEditing ? `Edit ${modelName}` : `Add ${modelName}`;
+  const submitBtnText = isEditing ? "Save changes" : "Submit";
+  const lowerName = modelName.toLowerCase();
+
+  const handleSubmit = () => {
+    onSubmit(JSON.stringify(formState));
   };
 
-  const [inputs, setInputs] = useState({});
+  const handleInputChange = e => {
+    e.persist();
+    const { name, value } = e.target;
 
-  const handleInputChange = event => {
-    event.persist();
-    const { name, value } = event.target;
-    setInputs(inputs => ({
-      ...inputs,
-      [name]: value
-    }));
+    const newState = { ...formState };
+    setNestedKey(newState, name.split("."), value);
+
+    setFormState({
+      ...newState
+    });
+  };
+
+  const setNestedKey = (obj, path, value) => {
+    if (path.length === 1) {
+      obj[path] = value;
+      return;
+    }
+    return setNestedKey(obj[path[0]], path.slice(1), value);
   };
 
   return {
+    formState,
     handleSubmit,
     handleInputChange,
-    inputs
+    title,
+    submitBtnText,
+    lowerName
   };
 };
