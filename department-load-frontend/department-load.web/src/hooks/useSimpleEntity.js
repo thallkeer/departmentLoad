@@ -54,5 +54,5 @@ export const useSimpleEntity = url => {
     });
   };
 
-  return { entities, loading, addEntity, updateEntity, deleteEntity };
+  return [entities, loading, addEntity, updateEntity, deleteEntity];
 };

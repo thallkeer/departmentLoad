@@ -4,26 +4,24 @@ import AddTeacher from "../Forms/AddTeacher";
 import useModal from "../../hooks/useModal";
 import { useSimpleEntity } from "../../hooks/useSimpleEntity";
 import ActionsButtons from "../ActionsButtons";
-import { useTeachers } from "../../hooks/useTeachers";
 
 export default function TeacherList() {
-  const { entities } = useSimpleEntity("position");
-  const positions = entities;
-  const { isShowing, toggle, submitFunction } = useModal();
-  const { teachers, addTeacher, deleteTeacher, updateTeacher } = useTeachers();
-  const [editableTeacher, setEditableTeacher] = useState({});
-
-  const editTeacher = id => {
-    setEditableTeacher(teachers.find(t => t.teacherId === id));
-    setSubmitFunction(() => updateTeacher);
-    toggle();
-  };
-
-  const createTeacher = () => {
-    setEditableTeacher(null);
-    setSubmitFunction(() => addTeacher);
-    toggle();
-  };
+  const [positions] = useSimpleEntity("position");
+  const [
+    teachers,
+    loading,
+    addTeacher,
+    updateTeacher,
+    deleteTeacher
+  ] = useSimpleEntity("teacher");
+  const {
+    isShowing,
+    toggle,
+    submitFunction,
+    createEntity,
+    editEntity,
+    editableEntity
+  } = useModal(updateTeacher, addTeacher);
 
   return (
     <Container>
@@ -33,7 +31,7 @@ export default function TeacherList() {
           floating="true"
           variant="primary"
           style={{ marginBottom: "10px" }}
-          onClick={() => createTeacher()}
+          onClick={() => createEntity()}
         >
           Add Teacher
         </Button>
@@ -56,7 +54,7 @@ export default function TeacherList() {
                 <td>{t.position.name}</td>
                 <td>
                   <ActionsButtons
-                    onEdit={() => editTeacher(t.teacherId)}
+                    onEdit={() => editEntity(t)}
                     onDelete={() => deleteTeacher(t.teacherId)}
                   />
                 </td>
@@ -71,7 +69,7 @@ export default function TeacherList() {
           handleClose={toggle}
           submitTeacher={submitFunction}
           positions={positions}
-          teacher={editableTeacher}
+          teacher={editableEntity}
         />
       )}
     </Container>

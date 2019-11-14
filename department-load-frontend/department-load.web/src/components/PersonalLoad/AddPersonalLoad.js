@@ -1,18 +1,7 @@
 import React, { useState } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
 import { useAddForm } from "../../hooks/useAddForm";
-import { usePersonalStudies } from "../../hooks/usePersonalLoad";
-
-const initialState = {
-  personalLoadID: 0,
-  studentsCount: 0,
-  teacher: {
-    teacherId: 0
-  },
-  personalStudy: {
-    individualClassId: 0
-  }
-};
+import { useSimpleEntity } from "../../hooks/index";
 
 export default function AddPersonalLoad(props) {
   const {
@@ -20,8 +9,20 @@ export default function AddPersonalLoad(props) {
     handleClose,
     submitPersonalLoad,
     personalLoad,
-    personalLoadName
+    personalLoadName,
+    studyTypes
   } = props;
+
+  const initialState = {
+    personalLoadID: 0,
+    studentsCount: 0,
+    teacher: {
+      teacherId: 0
+    },
+    personalStudy: {
+      individualClassId: studyTypes[0].individualClassId
+    }
+  };
 
   const {
     formState,
@@ -34,7 +35,8 @@ export default function AddPersonalLoad(props) {
     personalLoadName,
     submitPersonalLoad
   );
-  const { studyTypes } = usePersonalStudies();
+
+  const [teachers] = useSimpleEntity("teacher");
 
   return (
     <Modal size="lg" show={show} onHide={handleClose}>
@@ -51,7 +53,7 @@ export default function AddPersonalLoad(props) {
               onChange={handleInputChange}
               value={formState.teacher.teacherId}
             >
-              {teachersSelect.map(t => (
+              {teachers.map(t => (
                 <option key={t.teacherId} value={t.teacherId}>
                   {t.fullName}
                 </option>
@@ -78,31 +80,30 @@ export default function AddPersonalLoad(props) {
           </Form.Group>
           <Form.Group>
             <Form.Label>Student count</Form.Label>
-            <Form.Control
-              as="range"
-              name="studentsCount"
-              value={
-                formState.studentsCount * formState.personalStudy.volumeByPerson
-              }
+            <input
+              type="number"
+              className="form-control"
               min={0}
               max={20}
-              readOnly
+              value={formState.studentsCount}
+              onChange={handleInputChange}
+              name="studentsCount"
             />
           </Form.Group>
           <Form.Group>
             <Form.Label>Total load volume</Form.Label>
             <Form.Control
-              as="select"
-              name="position.id"
-              onChange={handleInputChange}
-              value={teacherState.position.id}
-            >
-              {positions.map(pos => (
-                <option key={pos.id} value={pos.id}>
-                  {pos.name}
-                </option>
-              ))}
-            </Form.Control>
+              as="input"
+              readOnly
+              value={
+                formState.studentsCount *
+                studyTypes.find(
+                  st =>
+                    st.individualClassId ==
+                    formState.personalStudy.individualClassId
+                ).volumeByPerson
+              }
+            ></Form.Control>
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>

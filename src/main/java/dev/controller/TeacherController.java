@@ -39,7 +39,7 @@ public class TeacherController {
         return ResponseEntity.ok(teacherService.add(teacher));
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    @RequestMapping(value = "/update", method = RequestMethod.PUT,consumes = APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Teacher> updateTeacher(@RequestBody Teacher teacher){
         return ResponseEntity.ok(teacherService.update(teacher));
     }

@@ -8,17 +8,14 @@ import {
   FormControl
 } from "react-bootstrap";
 import ActionsButtons from "../ActionsButtons";
-import {
-  usePersonalLoad,
-  usePersonalStudies
-} from "../../hooks/usePersonalLoad";
 import useModal from "../../hooks/useModal";
 import AddPersonalLoad from "./AddPersonalLoad";
+import { useSimpleEntity } from "../../hooks";
 
 export default function PersonalLoadList() {
-  const { studyTypes } = usePersonalStudies();
+  const [studyTypes] = useSimpleEntity("personalStudy");
   const [selectedType, setSelectedType] = useState("");
-  const { personalLoads, loading } = usePersonalLoad();
+  const [personalLoads, loading] = useSimpleEntity("personalLoad");
   const [filteredLoads, setFilteredLoads] = useState(null);
   const {
     isShowing,
@@ -98,6 +95,7 @@ export default function PersonalLoadList() {
             floating="true"
             variant="primary"
             style={{ marginBottom: "10px" }}
+            onClick={() => createEntity()}
           >
             Add personal load
           </Button>
@@ -137,6 +135,7 @@ export default function PersonalLoadList() {
           submitPersonalLoad={submitFunction}
           personalLoad={editableEntity}
           personalLoadName="Personal Load"
+          studyTypes={studyTypes}
         />
       )}
     </Container>
