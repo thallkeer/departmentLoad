@@ -11,6 +11,7 @@ import {
   Specialities
 } from "../decorators/simpleEntitiesDecorators";
 import PersonalLoadList from "../components/PersonalLoad/PersonalLoadList";
+import PersonalStudyList from "../components/PersonalStudy/PersonalStudyList";
 
 export default function AppRouter() {
   return (
@@ -28,6 +29,11 @@ export default function AppRouter() {
             path="/personalLoads"
             exact={true}
             component={PersonalLoadList}
+          />
+          <Route
+            path="/personalStudies"
+            exact={true}
+            component={PersonalStudyList}
           />
           <Route component={NotFound} />
         </Switch>

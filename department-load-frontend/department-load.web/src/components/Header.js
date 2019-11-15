@@ -23,6 +23,9 @@ const Header = () => (
       <NavLink to="/personalLoads" activeClassName="activeNav" exact={true}>
         Personal loads
       </NavLink>
+      <NavLink to="/personalStudies" activeClassName="activeNav" exact={true}>
+        Personal studies
+      </NavLink>
     </div>
   </header>
 );

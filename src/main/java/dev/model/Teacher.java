@@ -11,7 +11,7 @@ public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Teacher_ID", nullable = false)
-    private int teacherId;
+    private int ID;
     @Basic
     @Column(name = "FirstName", nullable = false, length = 450)
     private String firstName;
@@ -34,12 +34,12 @@ public class Teacher {
         return String.format("%s %s %s", lastName, firstName, patronym);
     }
 
-    public int getTeacherId() {
-        return teacherId;
+    public int getID() {
+        return ID;
     }
 
-    public void setTeacherId(int teacherId) {
-        this.teacherId = teacherId;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public String getFirstName() {
@@ -81,7 +81,7 @@ public class Teacher {
 
         Teacher that = (Teacher) o;
 
-        if (teacherId != that.teacherId) return false;
+        if (ID != that.ID) return false;
         if (!Objects.equals(position, that.position)) return false;
         if (!Objects.equals(firstName, that.firstName)) return false;
         if (!Objects.equals(lastName, that.lastName)) return false;
@@ -90,7 +90,7 @@ public class Teacher {
 
     @Override
     public int hashCode() {
-        int result = teacherId;
+        int result = ID;
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (patronym != null ? patronym.hashCode() : 0);

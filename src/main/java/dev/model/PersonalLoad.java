@@ -16,7 +16,7 @@ public class PersonalLoad {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PersonalLoadID", nullable = false)
-    private int personalLoadID;
+    private int ID;
 
     public Teacher getTeacher() {
         return teacher;
@@ -42,12 +42,12 @@ public class PersonalLoad {
         this.studentsCount = studentsCount;
     }
 
-    public int getPersonalLoadID() {
-        return personalLoadID;
+    public int getID() {
+        return ID;
     }
 
-    public void setPersonalLoadID(int personalLoadID) {
-        this.personalLoadID = personalLoadID;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class PersonalLoad {
         if (studentsCount != that.studentsCount) return false;
         if (teacher != that.teacher) return false;
         if (personalStudy != that.personalStudy) return false;
-        return personalLoadID == that.personalLoadID;
+        return ID == that.ID;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class PersonalLoad {
         int result = studentsCount;
         result = 31 * result + teacher.hashCode();
         result = 31 * result + personalStudy.hashCode();
-        result = 31 * result + personalLoadID;
+        result = 31 * result + ID;
         return result;
     }
 }

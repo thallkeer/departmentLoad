@@ -45,14 +45,14 @@ export default function PersonalLoadList() {
 
   const renderGrouped = group => {
     return group.personalLoads.map(load => (
-      <tr key={load.personalLoadID}>
+      <tr key={load.id}>
         <td>{load.personalStudy.individualClassName}</td>
         <td>{load.studentsCount}</td>
         <td>{load.studentsCount * load.personalStudy.volumeByPerson}</td>
         <td>
           <ActionsButtons
-            onEdit={() => console.log("Edit", load.personalLoadID)}
-            onDelete={() => console.log("Delete", load.personalLoadID)}
+            onEdit={() => console.log("Edit", load.id)}
+            onDelete={() => console.log("Delete", load.id)}
           ></ActionsButtons>
         </td>
       </tr>
@@ -77,7 +77,7 @@ export default function PersonalLoadList() {
       loadsFiltered.forEach(load => {
         const teacherLoads = load.personalLoads;
         const filtered = teacherLoads.filter(
-          pl => pl.personalStudy.individualClassId.toString() === id
+          pl => pl.personalStudy.id.toString() === id
         );
         load.personalLoads = filtered.length === 0 ? null : filtered;
       });
@@ -108,7 +108,7 @@ export default function PersonalLoadList() {
           >
             <option value="0">Все</option>
             {studyTypes.map(t => (
-              <option key={t.individualClassId} value={t.individualClassId}>
+              <option key={t.id} value={t.id}>
                 {t.individualClassName}
               </option>
             ))}

@@ -4,19 +4,19 @@ import javax.persistence.*;
 
 @Entity
 public class PersonalStudy {
-    private int individualClassId;
+    private int ID;
     private String individualClassName;
     private int volumeByPerson;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "IndividualClassID", nullable = false)
-    public int getIndividualClassId() {
-        return individualClassId;
+    public int getID() {
+        return ID;
     }
 
-    public void setIndividualClassId(int individualClassId) {
-        this.individualClassId = individualClassId;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     @Basic
@@ -46,7 +46,7 @@ public class PersonalStudy {
 
         PersonalStudy that = (PersonalStudy) o;
 
-        if (individualClassId != that.individualClassId) return false;
+        if (ID != that.ID) return false;
         if (volumeByPerson != that.volumeByPerson) return false;
         if (individualClassName != null ? !individualClassName.equals(that.individualClassName) : that.individualClassName != null)
             return false;
@@ -56,7 +56,7 @@ public class PersonalStudy {
 
     @Override
     public int hashCode() {
-        int result = individualClassId;
+        int result = ID;
         result = 31 * result + (individualClassName != null ? individualClassName.hashCode() : 0);
         result = 31 * result + volumeByPerson;
         return result;

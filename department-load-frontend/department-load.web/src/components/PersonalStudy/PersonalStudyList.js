@@ -3,17 +3,17 @@ import ActionsButtons from "../ActionsButtons";
 import { Row, Container, Button, Table, Spinner } from "react-bootstrap";
 import useModal from "../../hooks/useModal";
 import { useSimpleEntity } from "../../hooks/useSimpleEntity";
-import AddSimpleEntity from "../Forms/AddSimpleEntity";
+import AddPersonalStudy from "../../components/PersonalStudy/AddPersonalStudy";
 
-export default function SimpleEntityList(props) {
-  const { url, entityName } = props;
+export default function PersonalStudy(props) {
   const [
-    entities,
+    personalStudies,
     loading,
-    addEntity,
-    updateEntity,
-    deleteEntity
-  ] = useSimpleEntity(url);
+    addPersonalStudy,
+    updatePersonalStudy,
+    deletePersonalStudy
+  ] = useSimpleEntity("personalStudy");
+
   const {
     isShowing,
     toggle,
@@ -21,7 +21,7 @@ export default function SimpleEntityList(props) {
     createEntity,
     editEntity,
     editableEntity
-  } = useModal(updateEntity, addEntity);
+  } = useModal(updatePersonalStudy, addPersonalStudy);
 
   if (loading)
     return (
@@ -40,23 +40,25 @@ export default function SimpleEntityList(props) {
           style={{ marginBottom: "10px" }}
           onClick={() => createEntity()}
         >
-          Add {entityName}
+          Add personal study
         </Button>
         <Table striped bordered hover responsive>
           <thead>
             <tr>
-              <th>{entityName} Name</th>
+              <th>Personal study name</th>
+              <th>Volume by person, hours</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            {entities.map(e => (
-              <tr key={e.id}>
-                <td>{e.name}</td>
+            {personalStudies.map(ps => (
+              <tr key={ps.id}>
+                <td>{ps.individualClassName}</td>
+                <td>{ps.volumeByPerson}</td>
                 <td>
                   <ActionsButtons
-                    onEdit={() => editEntity(e)}
-                    onDelete={() => deleteEntity(e.id)}
+                    onEdit={() => editEntity(ps)}
+                    onDelete={() => deletePersonalStudy(ps.id)}
                   />
                 </td>
               </tr>
@@ -65,12 +67,12 @@ export default function SimpleEntityList(props) {
         </Table>
       </Row>
       {isShowing && (
-        <AddSimpleEntity
+        <AddPersonalStudy
           show={isShowing}
           handleClose={toggle}
-          submitEntity={submitFunction}
-          entity={editableEntity}
-          entityName={entityName}
+          submitPersonalStudy={submitFunction}
+          personalStudy={editableEntity}
+          personalStudyName="Personal study"
         />
       )}
     </Container>

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
+import { useAddForm } from "../../hooks/index";
 
 const initialState = {
-  teacherId: 0,
+  id: 0,
   firstName: "",
   lastName: "",
   patronym: "",
@@ -13,38 +14,26 @@ const initialState = {
 };
 
 export default function AddTeacher(props) {
-  const { show, handleClose, submitTeacher, positions, teacher } = props;
-  const [teacherState, setTeacherState] = useState(teacher || initialState);
-  const isEditing = !Object.is(teacher, null);
-  const title = isEditing ? "Edit teacher" : "Add teacher";
-  const submitText = isEditing ? "Save changes" : "Submit";
+  const {
+    show,
+    handleClose,
+    submitTeacher,
+    positions,
+    teacher,
+    teacherName
+  } = props;
 
-  const submitForm = () => {
-    submitTeacher(JSON.stringify(teacherState));
-  };
-
-  const handleInputChange = e => {
-    const { name, value } = e.target;
-
-    const newState = { ...teacherState };
-    setNestedKey(newState, name.split("."), value);
-
-    setTeacherState({
-      ...newState
-    });
-  };
-
-  const setNestedKey = (obj, path, value) => {
-    if (path.length === 1) {
-      obj[path] = value;
-      return;
-    }
-    return setNestedKey(obj[path[0]], path.slice(1), value);
-  };
+  const {
+    formState,
+    handleInputChange,
+    handleSubmit,
+    submitBtnText,
+    title
+  } = useAddForm(teacher || initialState, teacherName, submitTeacher);
 
   return (
     <Modal size="lg" show={show} onHide={handleClose}>
-      <Form onSubmit={submitForm}>
+      <Form onSubmit={handleSubmit}>
         <Modal.Header closeButton>
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
@@ -56,7 +45,7 @@ export default function AddTeacher(props) {
               required
               placeholder="Enter first name"
               name="firstName"
-              value={teacherState.firstName}
+              value={formState.firstName}
               onChange={handleInputChange}
             />
           </Form.Group>
@@ -67,7 +56,7 @@ export default function AddTeacher(props) {
               required
               placeholder="Enter last name"
               name="lastName"
-              value={teacherState.lastName}
+              value={formState.lastName}
               onChange={handleInputChange}
             />
           </Form.Group>
@@ -78,7 +67,7 @@ export default function AddTeacher(props) {
               required
               placeholder="Enter patronym"
               name="patronym"
-              value={teacherState.patronym}
+              value={formState.patronym}
               onChange={handleInputChange}
             />
           </Form.Group>
@@ -88,7 +77,7 @@ export default function AddTeacher(props) {
               as="select"
               name="position.id"
               onChange={handleInputChange}
-              value={teacherState.position.id}
+              value={formState.position.id}
             >
               {positions.map(pos => (
                 <option key={pos.id} value={pos.id}>
@@ -103,7 +92,7 @@ export default function AddTeacher(props) {
             Close
           </Button>
           <Button variant="primary" type="submit">
-            {submitText}
+            {submitBtnText}
           </Button>
         </Modal.Footer>
       </Form>

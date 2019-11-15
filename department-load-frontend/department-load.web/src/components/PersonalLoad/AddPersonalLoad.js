@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
-import { useAddForm } from "../../hooks/useAddForm";
-import { useSimpleEntity } from "../../hooks/index";
+import { useSimpleEntity, useAddForm } from "../../hooks/index";
 
 export default function AddPersonalLoad(props) {
   const {
@@ -14,13 +13,13 @@ export default function AddPersonalLoad(props) {
   } = props;
 
   const initialState = {
-    personalLoadID: 0,
-    studentsCount: 0,
+    id: 0,
+    studentsCount: 1,
     teacher: {
-      teacherId: 0
+      id: 0
     },
     personalStudy: {
-      individualClassId: studyTypes[0].individualClassId
+      id: studyTypes[0].id
     }
   };
 
@@ -49,12 +48,12 @@ export default function AddPersonalLoad(props) {
             <Form.Label>Teacher</Form.Label>
             <Form.Control
               as="select"
-              name="teacher.teacherId"
+              name="teacher.id"
               onChange={handleInputChange}
-              value={formState.teacher.teacherId}
+              value={formState.teacher.id}
             >
               {teachers.map(t => (
-                <option key={t.teacherId} value={t.teacherId}>
+                <option key={t.id} value={t.id}>
                   {t.fullName}
                 </option>
               ))}
@@ -64,15 +63,12 @@ export default function AddPersonalLoad(props) {
             <Form.Label>Study type</Form.Label>
             <Form.Control
               as="select"
-              name="personalStudy.individualClassId"
+              name="personalStudy.id"
               onChange={handleInputChange}
-              value={formState.personalStudy.individualClassId}
+              value={formState.personalStudy.id}
             >
               {studyTypes.map(type => (
-                <option
-                  key={type.individualClassId}
-                  value={type.individualClassId}
-                >
+                <option key={type.id} value={type.id}>
                   {type.individualClassName}
                 </option>
               ))}
@@ -83,7 +79,7 @@ export default function AddPersonalLoad(props) {
             <input
               type="number"
               className="form-control"
-              min={0}
+              min={1}
               max={20}
               value={formState.studentsCount}
               onChange={handleInputChange}
@@ -97,11 +93,8 @@ export default function AddPersonalLoad(props) {
               readOnly
               value={
                 formState.studentsCount *
-                studyTypes.find(
-                  st =>
-                    st.individualClassId ==
-                    formState.personalStudy.individualClassId
-                ).volumeByPerson
+                studyTypes.find(st => st.id == formState.personalStudy.id)
+                  .volumeByPerson
               }
             ></Form.Control>
           </Form.Group>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
+import { useAddForm } from "../../hooks";
 
 const initialState = {
   id: 0,
@@ -8,27 +9,18 @@ const initialState = {
 
 export default function AddSimpleEntity(props) {
   const { show, handleClose, submitEntity, entity, entityName } = props;
-  const [formState, setFormState] = useState(entity || initialState);
-  const isEditing = !Object.is(entity, null);
-  const title = isEditing ? `Edit ${entityName}` : `Add ${entityName}`;
-  const submitBtnText = isEditing ? "Save changes" : "Submit";
-  const lowerName = entityName.toLowerCase();
-
-  const submitForm = () => {
-    submitEntity(JSON.stringify(formState));
-  };
-
-  const handleInputChange = e => {
-    const { name, value } = e.target;
-    setFormState({
-      ...formState,
-      [name]: value
-    });
-  };
+  const {
+    formState,
+    handleInputChange,
+  handleSubmit,
+    submitBtnText,
+    title,
+    lowerName
+  } = useAddForm(entity || initialState, entityName, submitEntity);
 
   return (
     <Modal size="lg" show={show} onHide={handleClose}>
-      <Form onSubmit={submitForm}>
+      <Form onSubmit={handleSubmit}>
         <Modal.Header closeButton>
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>

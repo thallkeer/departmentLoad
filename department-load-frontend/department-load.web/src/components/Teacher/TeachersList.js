@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Row, Container, Button, Table } from "react-bootstrap";
 import AddTeacher from "../Forms/AddTeacher";
 import useModal from "../../hooks/useModal";
@@ -47,7 +47,7 @@ export default function TeacherList() {
           </thead>
           <tbody>
             {teachers.map(t => (
-              <tr key={t.teacherId}>
+              <tr key={t.id}>
                 <td>{t.lastName}</td>
                 <td>{t.firstName}</td>
                 <td>{t.patronym}</td>
@@ -55,7 +55,7 @@ export default function TeacherList() {
                 <td>
                   <ActionsButtons
                     onEdit={() => editEntity(t)}
-                    onDelete={() => deleteTeacher(t.teacherId)}
+                    onDelete={() => deleteTeacher(t.id)}
                   />
                 </td>
               </tr>
@@ -70,6 +70,7 @@ export default function TeacherList() {
           submitTeacher={submitFunction}
           positions={positions}
           teacher={editableEntity}
+          teacherName="Teacher"
         />
       )}
     </Container>

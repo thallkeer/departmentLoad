@@ -31,7 +31,7 @@ public class GroupLoad {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "GroupLoadID", nullable = false)
-    private int groupLoadId;
+    private int ID;
 
     public int getVolumeHours() {
         return volumeHours;
@@ -106,12 +106,12 @@ public class GroupLoad {
 
     @Id
     @Column(name = "GroupLoadID", nullable = false)
-    public int getGroupLoadId() {
-        return groupLoadId;
+    public int getID() {
+        return ID;
     }
 
-    public void setGroupLoadId(int groupLoadId) {
-        this.groupLoadId = groupLoadId;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     @Override
@@ -128,7 +128,7 @@ public class GroupLoad {
         if (teacherId != that.teacherId) return false;
         if (disciplineId != that.disciplineId) return false;
         if (groupStudiesId != that.groupStudiesId) return false;
-        if (groupLoadId != that.groupLoadId) return false;
+        if (ID != that.ID) return false;
         if (groupNumber != null ? !groupNumber.equals(that.groupNumber) : that.groupNumber != null) return false;
 
         return true;
@@ -144,7 +144,7 @@ public class GroupLoad {
         result = 31 * result + disciplineId;
         result = 31 * result + (groupNumber != null ? groupNumber.hashCode() : 0);
         result = 31 * result + groupStudiesId;
-        result = 31 * result + groupLoadId;
+        result = 31 * result + ID;
         return result;
     }
 }

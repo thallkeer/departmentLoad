@@ -49,7 +49,6 @@ export const useSimpleEntity = url => {
 
   const deleteEntity = id => {
     axios.delete(`/${url}/${id}`).then(res => {
-      console.log(res);
       setEntities(entities.filter(e => e.id !== id));
     });
   };
