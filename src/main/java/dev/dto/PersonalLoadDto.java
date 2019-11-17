@@ -3,17 +3,19 @@ package dev.dto;
 import dev.model.PersonalStudy;
 
 public class PersonalLoadDto {
-    private int personalLoadID;
+    private int ID;
     private int studentsCount;
     private String teacherFullName;
+    private int teacherID;
     private PersonalStudy personalStudy;
 
     public PersonalLoadDto() {}
 
-    public PersonalLoadDto(int personalLoadID, int studentCount, String teacherFullName, PersonalStudy personalStudy) {
-        this.personalLoadID = personalLoadID;
+    public PersonalLoadDto(int personalLoadID, int studentCount, String teacherFullName, int teacherID, PersonalStudy personalStudy) {
+        this.ID = personalLoadID;
         this.studentsCount = studentCount;
         this.teacherFullName = teacherFullName;
+        this.teacherID = teacherID;
         this.personalStudy = personalStudy;
     }
 
@@ -34,12 +36,12 @@ public class PersonalLoadDto {
         this.studentsCount = studentsCount;
     }
 
-    public int getPersonalLoadID() {
-        return personalLoadID;
+    public int getID() {
+        return ID;
     }
 
-    public void setPersonalLoadID(int personalLoadID) {
-        this.personalLoadID = personalLoadID;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public PersonalStudy getPersonalStudy() {
@@ -48,5 +50,13 @@ public class PersonalLoadDto {
 
     public void setPersonalStudy(PersonalStudy personalStudy) {
         this.personalStudy = personalStudy;
+    }
+
+    public int getTeacherID() {
+        return teacherID;
+    }
+
+    public void setTeacherID(int teacherID) {
+        this.teacherID = teacherID;
     }
 }

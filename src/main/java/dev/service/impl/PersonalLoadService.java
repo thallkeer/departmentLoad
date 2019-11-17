@@ -28,11 +28,15 @@ public class PersonalLoadService implements IService<PersonalLoad> {
         this.teacherRepository = teacherRepository;
     }
 
-    public PersonalLoadDto convertToDto(PersonalLoad load){
+    public PersonalLoadDto convertToDto(PersonalLoad load)    {
         PersonalLoadDto personalLoadDto = modelMapper.map(load, PersonalLoadDto.class);
         personalLoadDto.setTeacherFullName(load.getTeacher().getFullName());
-        //personalLoadDto.setStudyTypeID(load.getPersonalStudy().getIndividualClassId());
         return personalLoadDto;
+    }
+
+    public PersonalLoad convertFromDto(PersonalLoadDto personalLoadDto){
+        PersonalLoad personalLoad = modelMapper.map(personalLoadDto, PersonalLoad.class);
+        return personalLoad;
     }
 
     public List<PersonalLoadListDto> getGroupedLoads() {
@@ -43,8 +47,7 @@ public class PersonalLoadService implements IService<PersonalLoad> {
 
     @Override
     public List<PersonalLoad> getAll() {
-        List<PersonalLoad> tmp = personalLoadRepository.findAll();
-        return tmp;
+        return  personalLoadRepository.findAll();
     }
 
     @Override

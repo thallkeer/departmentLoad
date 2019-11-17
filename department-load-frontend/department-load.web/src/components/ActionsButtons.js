@@ -1,10 +1,9 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 
-export default function ActionsButtons(props) {
-  const { onEdit, onDelete } = props;
+export default function ActionsButtons(onEdit, onDelete) {
   return (
-    <div>
+    <>
       <Button
         size="sm"
         floating="true"
@@ -24,6 +23,6 @@ export default function ActionsButtons(props) {
       >
         Delete
       </Button>
-    </div>
+    </>
   );
 }

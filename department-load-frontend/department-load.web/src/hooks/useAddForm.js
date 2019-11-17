@@ -1,8 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { Form, Button, Modal } from "react-bootstrap";
 
-export const useAddForm = (model, modelName, onSubmit) => {
+export const useAddForm = (model, modelName, onSubmit, show, handleClose) => {
   const [formState, setFormState] = useState(model);
-  const isEditing = !Object.is(model, null);
+  const isEditing = model.id !== 0;
   const title = isEditing ? `Edit ${modelName}` : `Add ${modelName}`;
   const submitBtnText = isEditing ? "Save changes" : "Submit";
   const lowerName = modelName.toLowerCase();
@@ -31,12 +32,26 @@ export const useAddForm = (model, modelName, onSubmit) => {
     return setNestedKey(obj[path[0]], path.slice(1), value);
   };
 
-  return {
-    formState,
-    handleSubmit,
-    handleInputChange,
-    title,
-    submitBtnText,
-    lowerName
+  const getFormComponent = formBody => {
+    return (
+      <Modal size="lg" show={show} onHide={handleClose}>
+        <Form onSubmit={handleSubmit}>
+          <Modal.Header closeButton>
+            <Modal.Title>{title}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{formBody()}</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" type="submit">
+              {submitBtnText}
+            </Button>
+          </Modal.Footer>
+        </Form>
+      </Modal>
+    );
   };
+
+  return { formState, getFormComponent, handleInputChange, lowerName };
 };

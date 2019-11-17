@@ -7,7 +7,6 @@ import java.util.Objects;
 public class Speciality {
     private String code;
     private String specialityName;
-    private int educationLevel;
 
     @Id
     @Column(name = "Code", nullable = false, length = 450)
@@ -29,15 +28,6 @@ public class Speciality {
         this.specialityName = specialityName;
     }
 
-    @Basic
-    @Column(name = "EducationLevel", nullable = false)
-    public int getEducationLevel() {
-        return educationLevel;
-    }
-
-    public void setEducationLevel(int educationLevel) {
-        this.educationLevel = educationLevel;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -46,19 +36,14 @@ public class Speciality {
 
         Speciality that = (Speciality) o;
 
-        if (educationLevel != that.educationLevel) return false;
         if (!Objects.equals(code, that.code)) return false;
-        if (!Objects.equals(specialityName, that.specialityName))
-            return false;
-
-        return true;
+        return Objects.equals(specialityName, that.specialityName);
     }
 
     @Override
     public int hashCode() {
         int result = code != null ? code.hashCode() : 0;
         result = 31 * result + (specialityName != null ? specialityName.hashCode() : 0);
-        result = 31 * result + educationLevel;
         return result;
     }
 }

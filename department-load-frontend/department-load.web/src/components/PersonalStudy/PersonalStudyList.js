@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import ActionsButtons from "../ActionsButtons";
 import { Row, Container, Button, Table, Spinner } from "react-bootstrap";
 import useModal from "../../hooks/useModal";
-import { useSimpleEntity } from "../../hooks/useSimpleEntity";
+import { useAxios } from "../../hooks/useAxios";
 import AddPersonalStudy from "../../components/PersonalStudy/AddPersonalStudy";
 
 export default function PersonalStudy(props) {
@@ -12,7 +12,7 @@ export default function PersonalStudy(props) {
     addPersonalStudy,
     updatePersonalStudy,
     deletePersonalStudy
-  ] = useSimpleEntity("personalStudy");
+  ] = useAxios("personalStudy");
 
   const {
     isShowing,

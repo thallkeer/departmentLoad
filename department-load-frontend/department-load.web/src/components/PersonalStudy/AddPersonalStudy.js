@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button, Modal } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { useAddForm } from "../../hooks/index";
 
 const initialState = {
@@ -19,56 +19,46 @@ export default function AddPersonalStudy(props) {
 
   const {
     formState,
+    getFormComponent,
     handleInputChange,
-    handleSubmit,
-    submitBtnText,
-    title
+    lowerName
   } = useAddForm(
     personalStudy || initialState,
     personalStudyName,
-    submitPersonalStudy
+    submitPersonalStudy,
+    show,
+    handleClose
   );
 
-  return (
-    <Modal size="lg" show={show} onHide={handleClose}>
-      <Form onSubmit={handleSubmit}>
-        <Modal.Header closeButton>
-          <Modal.Title>{title}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form.Group>
-            <Form.Label>{personalStudyName} Name</Form.Label>
-            <Form.Control
-              type="text"
-              required
-              placeholder={`Enter ${personalStudyName} name`}
-              name="individualClassName"
-              value={formState.individualClassName}
-              onChange={handleInputChange}
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Volume by person in hours</Form.Label>
-            <input
-              type="number"
-              className="form-control"
-              min={1}
-              max={8}
-              value={formState.volumeByPerson}
-              onChange={handleInputChange}
-              name="volumeByPerson"
-            />
-          </Form.Group>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" type="submit">
-            {submitBtnText}
-          </Button>
-        </Modal.Footer>
-      </Form>
-    </Modal>
-  );
+  const getFormBody = () => {
+    return (
+      <>
+        <Form.Group>
+          <Form.Label>{personalStudyName} Name</Form.Label>
+          <Form.Control
+            type="text"
+            required
+            placeholder={`Enter ${lowerName} name`}
+            name="individualClassName"
+            value={formState.individualClassName}
+            onChange={handleInputChange}
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Volume by person in hours</Form.Label>
+          <input
+            type="number"
+            className="form-control"
+            min={1}
+            max={8}
+            value={formState.volumeByPerson}
+            onChange={handleInputChange}
+            name="volumeByPerson"
+          />
+        </Form.Group>
+      </>
+    );
+  };
+
+  return getFormComponent(getFormBody);
 }

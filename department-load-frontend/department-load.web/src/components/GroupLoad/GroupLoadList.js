@@ -1,29 +1,21 @@
 import React, { useState } from "react";
-import {
-  Row,
-  Container,
-  Col,
-  Button,
-  Table,
-  FormControl,
-  Spinner
-} from "react-bootstrap";
+import { Row, Container, Col, Button, Table, Spinner } from "react-bootstrap";
 import ActionsButtons from "../ActionsButtons";
 import useModal from "../../hooks/useModal";
 import AddPersonalLoad from "./AddPersonalLoad";
 import { useAxios } from "../../hooks";
 import { SelectList } from ".././index";
 
-export default function PersonalLoadList() {
-  const [studyTypes] = useAxios("personalStudy");
+export default function GroupLoadList() {
+  const [studyTypes] = useAxios("groupStudies");
   const [selectedType, setSelectedType] = useState("");
   const [
-    personalLoads,
+    groupLoads,
     loading,
-    addPersonalLoad,
-    updatePersonalLoad,
-    deletePersonalLoad
-  ] = useAxios("personalLoad");
+    addGroupLoad,
+    updateGroupLoad,
+    deleteGroupLoad
+  ] = useAxios("groupLoad");
   const [filteredLoads, setFilteredLoads] = useState(null);
   const {
     isShowing,
@@ -32,7 +24,7 @@ export default function PersonalLoadList() {
     editEntity,
     editableEntity,
     submitFunction
-  } = useModal(updatePersonalLoad, addPersonalLoad);
+  } = useModal(updateGroupLoad, addGroupLoad);
 
   const renderGroupHeader = group => {
     return (
@@ -60,7 +52,7 @@ export default function PersonalLoadList() {
         <td>
           <ActionsButtons
             onEdit={() => editEntity(load)}
-            onDelete={() => deletePersonalLoad(load.id)}
+            onDelete={() => deleteGroupLoad(load.id)}
           ></ActionsButtons>
         </td>
       </tr>
@@ -78,9 +70,9 @@ export default function PersonalLoadList() {
     const id = e.target.value;
     setSelectedType(id);
 
-    if (id === "0") setFilteredLoads(personalLoads);
+    if (id === "0") setFilteredLoads(groupLoads);
     else {
-      let loadsFiltered = JSON.parse(JSON.stringify(personalLoads));
+      let loadsFiltered = JSON.parse(JSON.stringify(groupLoads));
 
       loadsFiltered.forEach(load => {
         const teacherLoads = load.personalLoads;
@@ -92,6 +84,58 @@ export default function PersonalLoadList() {
 
       setFilteredLoads(loadsFiltered.filter(l => l.personalLoads));
     }
+  };
+
+  const renderFiltersRow = () => {
+    return (
+      <tr style={{ backgroundColor: "white" }}>
+        <th>
+          <SelectList
+            items={studyTypes}
+            dataTextField={"individualClassName"}
+            onChangeHandler={handleFilterChange}
+            selectedValue={selectedType}
+            label={"study type"}
+          />
+        </th>
+        <th>
+          <SelectList
+            items={studyTypes}
+            dataTextField={"individualClassName"}
+            onChangeHandler={handleFilterChange}
+            selectedValue={selectedType}
+            label={"study type"}
+          />
+        </th>
+        <th>
+          <SelectList
+            items={studyTypes}
+            dataTextField={"individualClassName"}
+            onChangeHandler={handleFilterChange}
+            selectedValue={selectedType}
+            label={"study type"}
+          />
+        </th>
+        <th>
+          <SelectList
+            items={studyTypes}
+            dataTextField={"individualClassName"}
+            onChangeHandler={handleFilterChange}
+            selectedValue={selectedType}
+            label={"study type"}
+          />
+        </th>
+        <th>
+          <SelectList
+            items={studyTypes}
+            dataTextField={"individualClassName"}
+            onChangeHandler={handleFilterChange}
+            selectedValue={selectedType}
+            label={"study type"}
+          />
+        </th>
+      </tr>
+    );
   };
 
   if (loading)
@@ -121,25 +165,20 @@ export default function PersonalLoadList() {
         <Table bordered hover responsive className="vertical-aligned-headers">
           <thead>
             <tr>
-              <th>
-                Personal study name
-                <SelectList
-                  items={studyTypes}
-                  dataTextField={"individualClassName"}
-                  onChangeHandler={handleFilterChange}
-                  selectedValue={selectedType}
-                  label={"study type"}
-                />
-              </th>
-              <th>Student count</th>
-              <th>Total volume</th>
-              <th colSpan="2"></th>
+              <th>Teacher</th>
+              <th>Group study type</th>
+              <th>Semester</th>
+              <th>Study type</th>
+              <th>Course</th>
+              <th>Volume hours</th>
+              <th></th>
             </tr>
+            {renderFiltersRow()}
           </thead>
-          <tbody>{renderGroups(filteredLoads || personalLoads)}</tbody>
+          <tbody>{renderGroups(filteredLoads || groupLoads)}</tbody>
         </Table>
       </Row>
-      {isShowing && (
+      {/* {isShowing && (
         <AddPersonalLoad
           show={isShowing}
           handleClose={toggle}
@@ -148,7 +187,7 @@ export default function PersonalLoadList() {
           personalLoadName="Personal Load"
           studyTypes={studyTypes}
         />
-      )}
+      )} */}
     </Container>
   );
 }

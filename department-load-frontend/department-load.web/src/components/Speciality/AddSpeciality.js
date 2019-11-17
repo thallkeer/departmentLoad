@@ -3,11 +3,11 @@ import { Form } from "react-bootstrap";
 import { useAddForm } from "../../hooks";
 
 const initialState = {
-  id: 0,
+  code: "",
   name: ""
 };
 
-export default function AddSimpleEntity(props) {
+export default function AddSpeciality(props) {
   const { show, handleClose, submitEntity, entity, entityName } = props;
   const {
     formState,
@@ -26,7 +26,19 @@ export default function AddSimpleEntity(props) {
     return (
       <>
         <Form.Group>
-          <Form.Label>{entityName} Name</Form.Label>
+          <Form.Label>{entityName} code</Form.Label>
+          <Form.Control
+            type="text"
+            required
+            placeholder={`Enter ${lowerName} code`}
+            name="code"
+            value={formState.code}
+            onChange={handleInputChange}
+            pattern="^([0-9]{2}.[0-9]{2}.[0-9].)+$"
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>{entityName} name</Form.Label>
           <Form.Control
             type="text"
             required

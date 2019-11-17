@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "../axios/axios";
 
-export const useSimpleEntity = url => {
+export const useAxios = url => {
   const [entities, setEntities] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -41,17 +41,25 @@ export const useSimpleEntity = url => {
         }
       })
       .then(res => {
-        console.log(res);
         console.log(res.data);
         setEntities(entities.map(e => (e.id === entity.id ? entity : e)));
       });
   };
 
-  const deleteEntity = id => {
+  const deleteEntity = (id, keyFieldName) => {
+    keyFieldName = keyFieldName ? keyFieldName : "id";
     axios.delete(`/${url}/${id}`).then(res => {
-      setEntities(entities.filter(e => e.id !== id));
+      setEntities(entities.filter(e => e[keyFieldName] !== id));
     });
   };
 
-  return [entities, loading, addEntity, updateEntity, deleteEntity];
+  return [entities, loading, addEntity, updateEntity, deleteEntity, getById];
+};
+
+export const getById = (url, id) => {
+  axios.get(`${url}/${id}`).then(result => {
+    console.log(result.data);
+
+    return result.data;
+  });
 };

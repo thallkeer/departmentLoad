@@ -3,12 +3,12 @@ import ActionsButtons from "../ActionsButtons";
 import { Row, Container, Button, Table, Spinner } from "react-bootstrap";
 import useModal from "../../hooks/useModal";
 import { useAxios } from "../../hooks/useAxios";
-import AddSimpleEntity from "../Forms/AddSimpleEntity";
+import AddSpeciality from "./AddSpeciality";
 
-export default function SimpleEntityList(props) {
-  const { url, entityName } = props;
+export default function SpecialityList() {
+  const entityName = "Speciality";
   const [entities, loading, addEntity, updateEntity, deleteEntity] = useAxios(
-    url
+    "speciality"
   );
   const {
     isShowing,
@@ -41,18 +41,18 @@ export default function SimpleEntityList(props) {
         <Table striped bordered hover responsive>
           <thead>
             <tr>
-              <th>{entityName} Name</th>
+              <th>{entityName} code</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
             {entities.map(e => (
-              <tr key={e.id}>
+              <tr key={e.code}>
                 <td>{e.name}</td>
                 <td>
                   <ActionsButtons
                     onEdit={() => editEntity(e)}
-                    onDelete={() => deleteEntity(e.id)}
+                    onDelete={() => deleteEntity(e.code, "code")}
                   />
                 </td>
               </tr>
@@ -61,7 +61,7 @@ export default function SimpleEntityList(props) {
         </Table>
       </Row>
       {isShowing && (
-        <AddSimpleEntity
+        <AddSpeciality
           show={isShowing}
           handleClose={toggle}
           submitEntity={submitFunction}

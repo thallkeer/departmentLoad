@@ -30,4 +30,8 @@ body {
       -ms-flex-pack: justify;
           justify-content: space-between;
 }
+
+.vertical-aligned-headers th {
+  vertical-align: top !important;
+}
 /*# sourceMappingURL=styles.css.map */

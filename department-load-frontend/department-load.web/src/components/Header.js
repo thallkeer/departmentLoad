@@ -1,31 +1,26 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
+const links = [
+  { url: "teachers", text: "Teachers" },
+  { url: "/positions", text: "Positions" },
+  { url: "/disciplines", text: "Disciplines" },
+  { url: "/specialities", text: "Specialities" },
+  { url: "/groupLoads", text: "Group loads" },
+  { url: "/groupStudies", text: "Group studies" },
+  { url: "/personalLoads", text: "Personal loads" },
+  { url: "/personalStudies", text: "Personal studies" }
+];
+
 const Header = () => (
   <header>
     <h2>Department load Application</h2>
     <div className="header_nav">
-      <NavLink to="/teachers" activeClassName="activeNav" exact={true}>
-        Teachers
-      </NavLink>
-      <NavLink to="/positions" activeClassName="activeNav" exact={true}>
-        Positions
-      </NavLink>
-      <NavLink to="/disciplines" activeClassName="activeNav" exact={true}>
-        Disciplines
-      </NavLink>
-      <NavLink to="/specialities" activeClassName="activeNav" exact={true}>
-        Specialities
-      </NavLink>
-      <NavLink to="/groupStudies" activeClassName="activeNav" exact={true}>
-        Group studies
-      </NavLink>
-      <NavLink to="/personalLoads" activeClassName="activeNav" exact={true}>
-        Personal loads
-      </NavLink>
-      <NavLink to="/personalStudies" activeClassName="activeNav" exact={true}>
-        Personal studies
-      </NavLink>
+      {links.map(link => (
+        <NavLink to={link.url} exact={true}>
+          {link.text}
+        </NavLink>
+      ))}
     </div>
   </header>
 );

@@ -1,19 +1,19 @@
 import React from "react";
-import { Row, Container, Button, Table } from "react-bootstrap";
+import { Row, Container, Button, Table, Spinner } from "react-bootstrap";
 import AddTeacher from "../Forms/AddTeacher";
 import useModal from "../../hooks/useModal";
-import { useSimpleEntity } from "../../hooks/useSimpleEntity";
+import { useAxios } from "../../hooks/useAxios";
 import ActionsButtons from "../ActionsButtons";
 
 export default function TeacherList() {
-  const [positions] = useSimpleEntity("position");
+  const [positions] = useAxios("position");
   const [
     teachers,
     loading,
     addTeacher,
     updateTeacher,
     deleteTeacher
-  ] = useSimpleEntity("teacher");
+  ] = useAxios("teacher");
   const {
     isShowing,
     toggle,
@@ -22,6 +22,13 @@ export default function TeacherList() {
     editEntity,
     editableEntity
   } = useModal(updateTeacher, addTeacher);
+
+  if (loading)
+    return (
+      <Spinner animation="border" role="status">
+        <span className="sr-only">Loading...</span>
+      </Spinner>
+    );
 
   return (
     <Container>
