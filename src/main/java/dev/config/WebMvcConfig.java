@@ -1,4 +1,4 @@
-package dev;
+package dev.config;
 
 
 import org.springframework.context.annotation.Configuration;

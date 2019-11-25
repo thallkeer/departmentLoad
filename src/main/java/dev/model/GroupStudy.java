@@ -1,32 +1,17 @@
 package dev.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class GroupStudy {
-    private int ID;
-    private String name;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "GroupClassID", nullable = false)
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
+    private int ID;
     @Basic
     @Column(name = "GroupClassName", nullable = false, length = 450)
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    private String name;
 
     @Override
     public boolean equals(Object o) {
@@ -36,10 +21,7 @@ public class GroupStudy {
         GroupStudy that = (GroupStudy) o;
 
         if (ID != that.ID) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null)
-            return false;
-
-        return true;
+        return Objects.equals(name, that.name);
     }
 
     @Override
@@ -47,5 +29,22 @@ public class GroupStudy {
         int result = ID;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

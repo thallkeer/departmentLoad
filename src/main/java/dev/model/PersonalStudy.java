@@ -1,43 +1,20 @@
 package dev.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class PersonalStudy {
-    private int ID;
-    private String individualClassName;
-    private int volumeByPerson;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "IndividualClassID", nullable = false)
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
+    private int ID;
     @Basic
     @Column(name = "IndividualClassName", nullable = false, length = 450)
-    public String getIndividualClassName() {
-        return individualClassName;
-    }
-
-    public void setIndividualClassName(String individualClassName) {
-        this.individualClassName = individualClassName;
-    }
-
+    private String individualClassName;
     @Basic
     @Column(name = "VolumeByPerson", nullable = false)
-    public int getVolumeByPerson() {
-        return volumeByPerson;
-    }
-
-    public void setVolumeByPerson(int volumeByPerson) {
-        this.volumeByPerson = volumeByPerson;
-    }
+    private int volumeByPerson;
 
     @Override
     public boolean equals(Object o) {
@@ -48,10 +25,7 @@ public class PersonalStudy {
 
         if (ID != that.ID) return false;
         if (volumeByPerson != that.volumeByPerson) return false;
-        if (individualClassName != null ? !individualClassName.equals(that.individualClassName) : that.individualClassName != null)
-            return false;
-
-        return true;
+        return Objects.equals(individualClassName, that.individualClassName);
     }
 
     @Override
@@ -60,5 +34,31 @@ public class PersonalStudy {
         result = 31 * result + (individualClassName != null ? individualClassName.hashCode() : 0);
         result = 31 * result + volumeByPerson;
         return result;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+
+    public String getIndividualClassName() {
+        return individualClassName;
+    }
+
+    public void setIndividualClassName(String individualClassName) {
+        this.individualClassName = individualClassName;
+    }
+
+
+    public int getVolumeByPerson() {
+        return volumeByPerson;
+    }
+
+    public void setVolumeByPerson(int volumeByPerson) {
+        this.volumeByPerson = volumeByPerson;
     }
 }

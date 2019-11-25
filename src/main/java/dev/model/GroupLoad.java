@@ -1,19 +1,37 @@
 package dev.model;
 
+import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 public class GroupLoad {
+
+    public enum SemesterType {
+        FALL_SEMESTER,
+        SPRING_SEMESTER
+    }
+
+    public enum StudyTypes {
+        FULL_TIME,
+        CORRESPONDENCE_COURSE,
+        EVENING
+    }
+
     @Basic
     @Column(name = "VolumeHours", nullable = false)
     private int volumeHours;
     @Basic
-    @Column(name = "Semester", nullable = false)
-    private int semester;
+    @Enumerated(EnumType.STRING)
+    @NaturalId
+    @Column(name = "Semester", nullable = false, length = 60)
+    private SemesterType semester;
     @Basic
-    @Column(name = "StudyType", nullable = false)
-    private int studyType;
+    @Enumerated(EnumType.STRING)
+    @NaturalId
+    @Column(name = "StudyType", nullable = false, length = 60)
+    private StudyTypes studyType;
     @Basic
     @Column(name = "StudyYear", nullable = false)
     private int studyYear;
@@ -34,6 +52,56 @@ public class GroupLoad {
     @Column(name = "GroupLoadID", nullable = false)
     private int ID;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GroupLoad groupLoad = (GroupLoad) o;
+        return volumeHours == groupLoad.volumeHours &&
+                studyYear == groupLoad.studyYear &&
+                ID == groupLoad.ID &&
+                semester == groupLoad.semester &&
+                studyType == groupLoad.studyType &&
+                teacher.equals(groupLoad.teacher) &&
+                discipline.equals(groupLoad.discipline) &&
+                group.equals(groupLoad.group) &&
+                groupStudy.equals(groupLoad.groupStudy);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(volumeHours, semester, studyType, studyYear, teacher, discipline, group, groupStudy, ID);
+    }
+
+    @Override
+    public String toString() {
+        return "GroupLoad{" +
+                "volumeHours=" + volumeHours +
+                ", semester=" + semester +
+                ", studyType=" + studyType +
+                ", studyYear=" + studyYear +
+                ", teacher=" + teacher +
+                ", discipline=" + discipline +
+                ", group=" + group +
+                ", groupStudy=" + groupStudy +
+                ", ID=" + ID +
+                '}';
+    }
+
+    public GroupLoad() {
+    }
+
+    public GroupLoad(int volumeHours, SemesterType semester, StudyTypes studyType, int studyYear, Teacher teacher, Discipline discipline, StudyGroup group, GroupStudy groupStudy) {
+        this.volumeHours = volumeHours;
+        this.semester = semester;
+        this.studyType = studyType;
+        this.studyYear = studyYear;
+        this.teacher = teacher;
+        this.discipline = discipline;
+        this.group = group;
+        this.groupStudy = groupStudy;
+    }
+
     public int getVolumeHours() {
         return volumeHours;
     }
@@ -42,21 +110,19 @@ public class GroupLoad {
         this.volumeHours = volumeHours;
     }
 
-
-    public int getSemester() {
+    public SemesterType getSemester() {
         return semester;
     }
 
-    public void setSemester(int semester) {
+    public void setSemester(SemesterType semester) {
         this.semester = semester;
     }
 
-
-    public int getStudyType() {
+    public StudyTypes getStudyType() {
         return studyType;
     }
 
-    public void setStudyType(int studyType) {
+    public void setStudyType(StudyTypes studyType) {
         this.studyType = studyType;
     }
 
@@ -68,69 +134,12 @@ public class GroupLoad {
         this.studyYear = studyYear;
     }
 
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
-    }
-
     public Teacher getTeacher() {
         return teacher;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        GroupLoad that = (GroupLoad) o;
-
-        if (volumeHours != that.volumeHours) return false;
-        if (semester != that.semester) return false;
-        if (studyType != that.studyType) return false;
-        if (studyYear != that.studyYear) return false;
-        if (teacher != that.teacher) return false;
-        if (discipline != that.discipline) return false;
-        if (groupStudy != that.groupStudy) return false;
-        if (ID != that.ID) return false;
-        return Objects.equals(group, that.group);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = volumeHours;
-        result = 31 * result + semester;
-        result = 31 * result + studyType;
-        result = 31 * result + studyYear;
-        result = 31 * result + (teacher != null ? teacher.hashCode() : 0);
-        result = 31 * result + (discipline != null ? discipline.hashCode() : 0);
-        result = 31 * result + (group != null ? group.hashCode() : 0);
-        result = 31 * result + (groupStudy != null ? groupStudy.hashCode() : 0);
-        result = 31 * result + ID;
-        return result;
-    }
-
-
-    public void setGroupStudy(GroupStudy groupStudy) {
-        this.groupStudy = groupStudy;
-    }
-
-    public void setGroup(StudyGroup group) {
-        this.group = group;
-    }
-
-    public StudyGroup getGroup() {
-        return group;
-    }
-
-    public GroupStudy getGroupStudy() {
-        return this.groupStudy;
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
     }
 
     public Discipline getDiscipline() {
@@ -139,5 +148,29 @@ public class GroupLoad {
 
     public void setDiscipline(Discipline discipline) {
         this.discipline = discipline;
+    }
+
+    public StudyGroup getGroup() {
+        return group;
+    }
+
+    public void setGroup(StudyGroup group) {
+        this.group = group;
+    }
+
+    public GroupStudy getGroupStudy() {
+        return groupStudy;
+    }
+
+    public void setGroupStudy(GroupStudy groupStudy) {
+        this.groupStudy = groupStudy;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 }

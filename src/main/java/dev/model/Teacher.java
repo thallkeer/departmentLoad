@@ -30,6 +30,30 @@ public class Teacher {
 
     public Teacher() {}
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Teacher that = (Teacher) o;
+
+        if (ID != that.ID) return false;
+        if (!Objects.equals(position, that.position)) return false;
+        if (!Objects.equals(firstName, that.firstName)) return false;
+        if (!Objects.equals(lastName, that.lastName)) return false;
+        return Objects.equals(patronym, that.patronym);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = ID;
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (patronym != null ? patronym.hashCode() : 0);
+        result = 31 * result + (position != null ? position.hashCode() : 0);
+        return result;
+    }
+
     public String getFullName(){
         return String.format("%s %s %s", lastName, firstName, patronym);
     }
@@ -74,35 +98,11 @@ public class Teacher {
         this.position = position;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Teacher that = (Teacher) o;
-
-        if (ID != that.ID) return false;
-        if (!Objects.equals(position, that.position)) return false;
-        if (!Objects.equals(firstName, that.firstName)) return false;
-        if (!Objects.equals(lastName, that.lastName)) return false;
-        return Objects.equals(patronym, that.patronym);
+    public List<PersonalLoad> getPersonalLoads() {
+        return personalLoads;
     }
 
-    @Override
-    public int hashCode() {
-        int result = ID;
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (patronym != null ? patronym.hashCode() : 0);
-        result = 31 * result + (position != null ? position.hashCode() : 0);
-        return result;
+    public void setPersonalLoads(List<PersonalLoad> personalLoads) {
+        this.personalLoads = personalLoads;
     }
-
-//    public List<PersonalLoad> getPersonalLoads() {
-//        return personalLoads;
-//    }
-//
-//    public void setPersonalLoads(List<PersonalLoad> personalLoads) {
-//        this.personalLoads = personalLoads;
-//    }
 }

@@ -44,10 +44,7 @@ public class Discipline {
         Discipline that = (Discipline) o;
 
         if (ID != that.ID) return false;
-        if (!Objects.equals(name, that.name))
-            return false;
-
-        return true;
+        return Objects.equals(name, that.name);
     }
 
     @Override
