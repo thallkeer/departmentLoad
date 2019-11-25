@@ -1,27 +1,23 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 import { useAddForm } from "../../hooks/index";
+import SelectList from "../SelectList";
 
-const initialState = {
-  id: 0,
-  firstName: "",
-  lastName: "",
-  patronym: "",
-  position: {
+export default function AddTeacher({
+  show,
+  handleClose,
+  submitTeacher,
+  positions,
+  teacher,
+  teacherName
+}) {
+  const initialState = {
     id: 0,
-    name: ""
-  }
-};
-
-export default function AddTeacher(props) {
-  const {
-    show,
-    handleClose,
-    submitTeacher,
-    positions,
-    teacher,
-    teacherName
-  } = props;
+    firstName: "",
+    lastName: "",
+    patronym: "",
+    position: positions[0]
+  };
 
   const { formState, getFormComponent, handleInputChange } = useAddForm(
     teacher || initialState,
@@ -69,18 +65,13 @@ export default function AddTeacher(props) {
         </Form.Group>
         <Form.Group>
           <Form.Label>Position</Form.Label>
-          <Form.Control
-            as="select"
-            name="position.id"
-            onChange={handleInputChange}
-            value={formState.position.id}
-          >
-            {positions.map(pos => (
-              <option key={pos.id} value={pos.id}>
-                {pos.name}
-              </option>
-            ))}
-          </Form.Control>
+          <SelectList
+            items={positions}
+            dataTextField={"name"}
+            onChangeHandler={handleInputChange}
+            selectedValue={formState.position.id}
+            filterName={"position.id"}
+          />
         </Form.Group>
       </>
     );

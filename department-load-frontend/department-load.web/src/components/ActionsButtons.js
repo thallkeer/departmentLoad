@@ -1,7 +1,8 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
+import { FaPen, FaTrash } from "react-icons/fa";
 
-export default function ActionsButtons(onEdit, onDelete) {
+export default function ActionsButtons({ onEdit, onDelete }) {
   return (
     <>
       <Button
@@ -11,7 +12,7 @@ export default function ActionsButtons(onEdit, onDelete) {
         variant="success"
         onClick={onEdit}
       >
-        Edit
+        <FaPen />
       </Button>
       <Button
         size="sm"
@@ -21,7 +22,7 @@ export default function ActionsButtons(onEdit, onDelete) {
         onClick={onDelete}
         style={{ marginLeft: "5px" }}
       >
-        Delete
+        <FaTrash />
       </Button>
     </>
   );

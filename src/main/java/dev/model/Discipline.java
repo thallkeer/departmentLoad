@@ -1,6 +1,7 @@
 package dev.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class Discipline {
@@ -31,6 +32,11 @@ public class Discipline {
     }
 
     @Override
+    public String toString() {
+        return name;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -38,7 +44,7 @@ public class Discipline {
         Discipline that = (Discipline) o;
 
         if (ID != that.ID) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null)
+        if (!Objects.equals(name, that.name))
             return false;
 
         return true;

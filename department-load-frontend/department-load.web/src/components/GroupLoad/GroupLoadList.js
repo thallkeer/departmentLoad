@@ -1,14 +1,48 @@
-import React, { useState } from "react";
-import { Row, Container, Col, Button, Table, Spinner } from "react-bootstrap";
+import React, { useState, useCallback } from "react";
+import { Row, Container, Button, Table, Spinner } from "react-bootstrap";
 import ActionsButtons from "../ActionsButtons";
 import useModal from "../../hooks/useModal";
-import AddPersonalLoad from "./AddPersonalLoad";
 import { useAxios } from "../../hooks";
 import { SelectList } from ".././index";
+import { useFilter } from "../../hooks/useFilter";
+
+const model = {
+  groupKey: {
+    discipline: {
+      id: 0,
+      name: ""
+    }
+  },
+  values: [
+    {
+      groupKey: {
+        id: 0,
+        name: ""
+      },
+      values: [
+        {
+          id: 0,
+          groupNumber: "",
+          teacherFullName: "",
+          teacherID: 0,
+          volumeHours: 0
+        }
+      ]
+    }
+  ]
+};
+
+const initialFiltersState = {
+  teacherID: "",
+  groupNumber: "",
+  semester: "",
+  studyType: ""
+};
 
 export default function GroupLoadList() {
-  const [studyTypes] = useAxios("groupStudies");
-  const [selectedType, setSelectedType] = useState("");
+  const [studyTypes] = useAxios("groupStudy");
+  const [teachers] = useAxios("teacher");
+  const [groups] = useAxios("group");
   const [
     groupLoads,
     loading,
@@ -16,7 +50,9 @@ export default function GroupLoadList() {
     updateGroupLoad,
     deleteGroupLoad
   ] = useAxios("groupLoad");
+
   const [filteredLoads, setFilteredLoads] = useState(null);
+
   const {
     isShowing,
     toggle,
@@ -26,29 +62,56 @@ export default function GroupLoadList() {
     submitFunction
   } = useModal(updateGroupLoad, addGroupLoad);
 
-  const renderGroupHeader = group => {
+  const doFilter = useCallback(() => {
+    filterFunc(groupLoads);
+  }, []);
+
+  const { filtersState, handleFilterChange, filterSelector } = useFilter(
+    initialFiltersState,
+    doFilter
+  );
+
+  const filterFunc = (groupLoadsArr, selector) => {
+    const groupedGroupLoads = JSON.parse(JSON.stringify(groupLoadsArr));
+
+    groupedGroupLoads.forEach(group => {
+      group.values.forEach(groupValue => {
+        const loads = groupValue.values;
+        console.log(loads);
+        const filtered = loads.filter(selector);
+        console.log(filtered);
+        group.values.values = filtered.length === 0 ? null : filtered;
+      });
+    });
+
+    setFilteredLoads(groupedGroupLoads.filter(g => g.values.values));
+  };
+
+  const renderGroupHeader = header => {
     return (
-      <tr key={group.teacher}>
+      <tr key={header.id}>
         <th
-          colSpan="5"
+          colSpan="6"
           style={{
             backgroundColor: "#ADD8E6",
             borderColor: "#dee2e6",
             textAlign: "left"
           }}
         >
-          {group.teacher}
+          {header.name}
         </th>
       </tr>
     );
   };
 
-  const renderGrouped = group => {
-    return group.personalLoads.map(load => (
+  const renderGrouped = loads => {
+    return loads.map(load => (
       <tr key={load.id}>
-        <td>{load.personalStudy.individualClassName}</td>
-        <td>{load.studentsCount}</td>
-        <td>{load.studentsCount * load.personalStudy.volumeByPerson}</td>
+        <th>{load.teacherFullName}</th>
+        <th>{load.groupNumber}</th>
+        <th>Semester</th>
+        <th>Study type</th>
+        <th>{load.volumeHours}</th>
         <td>
           <ActionsButtons
             onEdit={() => editEntity(load)}
@@ -61,29 +124,12 @@ export default function GroupLoadList() {
 
   const renderGroups = groups => {
     return groups.map(group => [
-      renderGroupHeader(group),
-      renderGrouped(group)
+      renderGroupHeader(group.groupKey),
+      group.values.map(groupStudyGroup => [
+        renderGroupHeader(groupStudyGroup.groupKey),
+        renderGrouped(groupStudyGroup.values)
+      ])
     ]);
-  };
-
-  const handleFilterChange = e => {
-    const id = e.target.value;
-    setSelectedType(id);
-
-    if (id === "0") setFilteredLoads(groupLoads);
-    else {
-      let loadsFiltered = JSON.parse(JSON.stringify(groupLoads));
-
-      loadsFiltered.forEach(load => {
-        const teacherLoads = load.personalLoads;
-        const filtered = teacherLoads.filter(
-          pl => pl.personalStudy.id.toString() === id
-        );
-        load.personalLoads = filtered.length === 0 ? null : filtered;
-      });
-
-      setFilteredLoads(loadsFiltered.filter(l => l.personalLoads));
-    }
   };
 
   const renderFiltersRow = () => {
@@ -91,10 +137,29 @@ export default function GroupLoadList() {
       <tr style={{ backgroundColor: "white" }}>
         <th>
           <SelectList
+            items={teachers}
+            dataTextField={"fullName"}
+            onChangeHandler={handleFilterChange}
+            selectedValue={filtersState.teacher}
+            filterName={"teacherID"}
+          />
+        </th>
+        <th>
+          <SelectList
+            items={groups}
+            dataTextField={"groupNumber"}
+            onChangeHandler={handleFilterChange}
+            selectedValue={filtersState.group}
+            filterName={"groupNumber"}
+            keyProperty={"groupNumber"}
+          />
+        </th>
+        <th>
+          <SelectList
             items={studyTypes}
             dataTextField={"individualClassName"}
             onChangeHandler={handleFilterChange}
-            selectedValue={selectedType}
+            selectedValue={filtersState.semester}
             label={"study type"}
           />
         </th>
@@ -103,37 +168,12 @@ export default function GroupLoadList() {
             items={studyTypes}
             dataTextField={"individualClassName"}
             onChangeHandler={handleFilterChange}
-            selectedValue={selectedType}
+            selectedValue={filtersState.studyType}
             label={"study type"}
           />
         </th>
-        <th>
-          <SelectList
-            items={studyTypes}
-            dataTextField={"individualClassName"}
-            onChangeHandler={handleFilterChange}
-            selectedValue={selectedType}
-            label={"study type"}
-          />
-        </th>
-        <th>
-          <SelectList
-            items={studyTypes}
-            dataTextField={"individualClassName"}
-            onChangeHandler={handleFilterChange}
-            selectedValue={selectedType}
-            label={"study type"}
-          />
-        </th>
-        <th>
-          <SelectList
-            items={studyTypes}
-            dataTextField={"individualClassName"}
-            onChangeHandler={handleFilterChange}
-            selectedValue={selectedType}
-            label={"study type"}
-          />
-        </th>
+        <th></th>
+        <th></th>
       </tr>
     );
   };
@@ -148,28 +188,24 @@ export default function GroupLoadList() {
   return (
     <Container>
       <Row>
-        <Col md={2}>
-          <Button
-            size="md"
-            floating="true"
-            variant="primary"
-            style={{ marginBottom: "10px" }}
-            onClick={() => createEntity()}
-          >
-            Add personal load
-          </Button>
-        </Col>
-        <Col md={{ span: 4, offset: 6 }}></Col>
+        <Button
+          size="md"
+          floating="true"
+          variant="primary"
+          style={{ marginBottom: "10px" }}
+          onClick={() => createEntity()}
+        >
+          Add personal load
+        </Button>
       </Row>
       <Row>
-        <Table bordered hover responsive className="vertical-aligned-headers">
+        <Table hover>
           <thead>
             <tr>
               <th>Teacher</th>
-              <th>Group study type</th>
+              <th>Group number</th>
               <th>Semester</th>
               <th>Study type</th>
-              <th>Course</th>
               <th>Volume hours</th>
               <th></th>
             </tr>

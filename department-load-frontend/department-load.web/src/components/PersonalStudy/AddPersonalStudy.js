@@ -8,15 +8,13 @@ const initialState = {
   volumeByPerson: 1
 };
 
-export default function AddPersonalStudy(props) {
-  const {
-    show,
-    handleClose,
-    submitPersonalStudy,
-    personalStudy,
-    personalStudyName
-  } = props;
-
+export default function AddPersonalStudy({
+  show,
+  handleClose,
+  submitPersonalStudy,
+  personalStudy,
+  personalStudyName
+}) {
   const {
     formState,
     getFormComponent,

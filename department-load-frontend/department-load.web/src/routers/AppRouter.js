@@ -14,6 +14,7 @@ import {
   PersonalStudyList,
   SpecialityList
 } from "../components/index";
+import GroupLoadList from "../components/GroupLoad/GroupLoadList";
 
 export default function AppRouter() {
   return (
@@ -27,6 +28,7 @@ export default function AppRouter() {
           <Route path="/disciplines" exact={true} component={Disciplines} />
           <Route path="/groupStudies" exact={true} component={GroupStudies} />
           <Route path="/specialities" exact={true} component={SpecialityList} />
+          <Route path="/groupLoads" exact={true} component={GroupLoadList} />
           <Route
             path="/personalLoads"
             exact={true}

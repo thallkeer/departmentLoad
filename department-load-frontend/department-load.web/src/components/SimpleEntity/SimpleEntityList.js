@@ -38,7 +38,7 @@ export default function SimpleEntityList(props) {
         >
           Add {entityName}
         </Button>
-        <Table striped bordered hover responsive>
+        <Table striped hover responsive>
           <thead>
             <tr>
               <th>{entityName} Name</th>

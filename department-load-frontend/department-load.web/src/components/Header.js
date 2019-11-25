@@ -17,7 +17,7 @@ const Header = () => (
     <h2>Department load Application</h2>
     <div className="header_nav">
       {links.map(link => (
-        <NavLink to={link.url} exact={true}>
+        <NavLink key={link.url} to={link.url} exact={true}>
           {link.text}
         </NavLink>
       ))}

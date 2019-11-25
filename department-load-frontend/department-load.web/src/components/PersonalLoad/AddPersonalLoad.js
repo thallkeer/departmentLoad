@@ -1,17 +1,16 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 import { useAxios, useAddForm } from "../../hooks/index";
+import SelectList from "../SelectList";
 
-export default function AddPersonalLoad(props) {
-  const {
-    show,
-    handleClose,
-    submitPersonalLoad,
-    personalLoad,
-    personalLoadName,
-    studyTypes
-  } = props;
-
+export default function AddPersonalLoad({
+  show,
+  handleClose,
+  submitPersonalLoad,
+  personalLoad,
+  personalLoadName,
+  studyTypes
+}) {
   const initialState = {
     id: 0,
     studentsCount: 1,
@@ -36,33 +35,21 @@ export default function AddPersonalLoad(props) {
       <>
         <Form.Group>
           <Form.Label>Teacher</Form.Label>
-          <Form.Control
-            as="select"
-            name="teacherID"
-            onChange={handleInputChange}
-            value={formState.teacherID}
-          >
-            {teachers.map(t => (
-              <option key={t.id} value={t.id}>
-                {t.fullName}
-              </option>
-            ))}
-          </Form.Control>
+          <SelectList
+            items={teachers}
+            dataTextField={"fullName"}
+            onChangeHandler={handleInputChange}
+            selectedValue={formState.teacherID}
+          />
         </Form.Group>
         <Form.Group>
           <Form.Label>Study type</Form.Label>
-          <Form.Control
-            as="select"
-            name="personalStudy.id"
-            onChange={handleInputChange}
-            value={formState.personalStudy.id}
-          >
-            {studyTypes.map(type => (
-              <option key={type.id} value={type.id}>
-                {type.individualClassName}
-              </option>
-            ))}
-          </Form.Control>
+          <SelectList
+            items={studyTypes}
+            dataTextField={"individualClassName"}
+            onChangeHandler={handleInputChange}
+            selectedValue={formState.personalStudy.id}
+          />
         </Form.Group>
         <Form.Group>
           <Form.Label>Student count</Form.Label>

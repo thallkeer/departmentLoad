@@ -7,8 +7,13 @@ const initialState = {
   name: ""
 };
 
-export default function AddSpeciality(props) {
-  const { show, handleClose, submitEntity, entity, entityName } = props;
+export default function AddSpeciality({
+  show,
+  handleClose,
+  submitEntity,
+  entity,
+  entityName
+}) {
   const {
     formState,
     getFormComponent,
