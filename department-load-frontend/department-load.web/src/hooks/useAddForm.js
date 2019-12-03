@@ -1,15 +1,24 @@
 import React, { useState } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
 
-export const useAddForm = (model, modelName, onSubmit, show, handleClose) => {
+export const useAddForm = (
+  model,
+  modelName,
+  onSubmit,
+  show,
+  handleClose,
+  edit
+) => {
   const [formState, setFormState] = useState(model);
-  const isEditing = model.id !== 0;
+  const isEditing = edit || model.id !== 0;
   const title = isEditing ? `Edit ${modelName}` : `Add ${modelName}`;
   const submitBtnText = isEditing ? "Save changes" : "Submit";
-  const lowerName = modelName.toLowerCase();
+  const lowerName = modelName ? modelName.toLowerCase() : "";
 
-  const handleSubmit = () => {
+  const handleSubmit = e => {
+    e.preventDefault();
     onSubmit(JSON.stringify(formState));
+    handleClose();
   };
 
   const handleInputChange = e => {
@@ -17,6 +26,7 @@ export const useAddForm = (model, modelName, onSubmit, show, handleClose) => {
     const { name, value } = e.target;
 
     const newState = { ...formState };
+
     setNestedKey(newState, name.split("."), value);
 
     setFormState({
@@ -29,7 +39,7 @@ export const useAddForm = (model, modelName, onSubmit, show, handleClose) => {
       obj[path] = value;
       return;
     }
-    return setNestedKey(obj[path[0]], path.slice(1), value);
+    setNestedKey(obj[path[0]], path.slice(1), value);
   };
 
   const getFormComponent = formBody => {

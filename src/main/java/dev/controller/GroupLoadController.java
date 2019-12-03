@@ -9,9 +9,7 @@ import dev.repository.GroupLoadRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
 import java.util.List;
@@ -37,11 +35,10 @@ public class GroupLoadController {
         return groupLoadDto;
     }
 
-    @GetMapping("/")
-    public ResponseEntity<List<GroupedListDto<Discipline, GroupedListDto<GroupStudy, GroupLoadDto>>>> getAllGroupLoads() {
-
+    @RequestMapping(value = "/teacherLoads/{id}", method = RequestMethod.GET)
+    public ResponseEntity<List<GroupedListDto<Discipline, GroupedListDto<GroupStudy, GroupLoadDto>>>> getTeacherLoads(@PathVariable("id") int teacherID) {
         Map<Discipline, Map<GroupStudy, List<GroupLoad>>> groupedNotMapped = groupLoadRepository
-                .findAll()
+                .findAllByTeacherID(teacherID)
                 .stream()
                 .sorted(Comparator.comparing(gl -> gl.getGroupStudy().getName()))
                 .collect(groupingBy(GroupLoad::getDiscipline, groupingBy(GroupLoad::getGroupStudy)));
@@ -71,6 +68,12 @@ public class GroupLoadController {
                 .collect(toList());
 
         return ResponseEntity.ok(result);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void deleteEntity(@PathVariable("id") int id){
+
+        groupLoadRepository.deleteById(id);
     }
 
 //    @GetMapping("/{id}")

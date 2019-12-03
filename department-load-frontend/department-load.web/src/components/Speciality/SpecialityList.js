@@ -19,6 +19,8 @@ export default function SpecialityList() {
     editableEntity
   } = useModal(updateEntity, addEntity);
 
+  console.log(entities);
+
   if (loading)
     return (
       <Spinner animation="border" role="status">
@@ -42,13 +44,16 @@ export default function SpecialityList() {
           <thead>
             <tr>
               <th>{entityName} code</th>
+              <th>{entityName} name</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
+            {console.log(entities)}
             {entities.map(e => (
               <tr key={e.code}>
-                <td>{e.name}</td>
+                <td>{e.code}</td>
+                <td>{e.specialityName}</td>
                 <td>
                   <ActionsButtons
                     onEdit={() => editEntity(e)}

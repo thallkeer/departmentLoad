@@ -10,11 +10,12 @@ import java.util.Optional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
-public class BaseController<T> {
-    @Autowired
-    private final JpaRepository<T, Integer> entityRepository;
 
-    public BaseController(JpaRepository<T, Integer> entityRepository) {
+public class BaseController<T,Tkey> {
+    @Autowired
+    protected final JpaRepository<T, Tkey> entityRepository;
+
+    public BaseController(JpaRepository<T, Tkey> entityRepository) {
         this.entityRepository = entityRepository;
     }
 
@@ -24,7 +25,7 @@ public class BaseController<T> {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<T> getById(@PathVariable("id") int id){
+    public ResponseEntity<T> getById(@PathVariable("id") Tkey id){
         Optional<T> entity = entityRepository.findById(id);
         return entity.isPresent() ? ResponseEntity.ok(entity.get()) : ResponseEntity.notFound().build();
     }
@@ -40,7 +41,7 @@ public class BaseController<T> {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deleteEntity(@PathVariable("id") int id){
+    public void deleteEntity(@PathVariable("id") Tkey id){
         entityRepository.deleteById(id);
     }
 }

@@ -13,15 +13,17 @@ import java.util.stream.Collectors;
 public class UserPrincipal implements UserDetails {
     private Integer id;
 
-    private String name;
-
     private String username;
     @JsonIgnore
     private String password;
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrincipal(Integer id, String username, String password, List<GrantedAuthority> authorities) {
+    public UserPrincipal(Integer id, String username, String password, Collection<? extends GrantedAuthority> authorities) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.authorities = authorities;
     }
 
     public static UserPrincipal create(User user) {
@@ -43,14 +45,6 @@ public class UserPrincipal implements UserDetails {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     @Override

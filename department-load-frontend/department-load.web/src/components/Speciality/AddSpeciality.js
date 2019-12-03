@@ -4,7 +4,7 @@ import { useAddForm } from "../../hooks";
 
 const initialState = {
   code: "",
-  name: ""
+  specialityName: ""
 };
 
 export default function AddSpeciality({
@@ -48,8 +48,8 @@ export default function AddSpeciality({
             type="text"
             required
             placeholder={`Enter ${lowerName} name`}
-            name="name"
-            value={formState.name}
+            name="specialityName"
+            value={formState.specialityName}
             onChange={handleInputChange}
           />
         </Form.Group>

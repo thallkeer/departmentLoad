@@ -11,12 +11,14 @@ export default function AddTeacher({
   teacher,
   teacherName
 }) {
+  const first = { ...positions[0] };
+
   const initialState = {
     id: 0,
     firstName: "",
     lastName: "",
     patronym: "",
-    position: positions[0]
+    position: first
   };
 
   const { formState, getFormComponent, handleInputChange } = useAddForm(

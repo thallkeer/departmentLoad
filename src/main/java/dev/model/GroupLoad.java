@@ -1,7 +1,5 @@
 package dev.model;
 
-import org.hibernate.annotations.NaturalId;
-
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -9,27 +7,39 @@ import java.util.Objects;
 public class GroupLoad {
 
     public enum SemesterType {
-        FALL_SEMESTER,
-        SPRING_SEMESTER
+        FALL_SEMESTER("Осенний семестр"),
+        SPRING_SEMESTER("Весенний семестр");
+
+        public final String label;
+
+        private SemesterType(String label){
+            this.label = label;
+        }
     }
 
     public enum StudyTypes {
-        FULL_TIME,
-        CORRESPONDENCE_COURSE,
-        EVENING
+        FULL_TIME("Очное обучение"),
+        CORRESPONDENCE_COURSE("Заочное обучение"),
+        EVENING("Вечернее обучение");
+
+        public final String label;
+
+        private StudyTypes(String label){
+            this.label = label;
+        }
     }
 
     @Basic
     @Column(name = "VolumeHours", nullable = false)
     private int volumeHours;
     @Basic
-    @Enumerated(EnumType.STRING)
-    @NaturalId
+    //@Enumerated(EnumType.STRING)
+    //@NaturalId
     @Column(name = "Semester", nullable = false, length = 60)
     private SemesterType semester;
     @Basic
-    @Enumerated(EnumType.STRING)
-    @NaturalId
+    //@Enumerated(EnumType.STRING)
+    //@NaturalId
     @Column(name = "StudyType", nullable = false, length = 60)
     private StudyTypes studyType;
     @Basic

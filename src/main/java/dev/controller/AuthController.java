@@ -16,10 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -52,14 +49,16 @@ public class AuthController {
         this.tokenProvider = tokenProvider;
     }
 
-    @PostMapping("/signin")
+    @RequestMapping(value = "/signin", method = RequestMethod.POST)
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginDto signinModel) {
 
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+                signinModel.getUsername(),
+                signinModel.getPassword()
+        );
+
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        signinModel.getUsername(),
-                        signinModel.getPassword()
-                )
+                token
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -68,8 +67,8 @@ public class AuthController {
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpDto signUpRequest) {
+    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    public ResponseEntity<?> registerUser(@RequestBody SignUpDto signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return new ResponseEntity(
                     new ApiResponse(false, "Username is already taken!"),

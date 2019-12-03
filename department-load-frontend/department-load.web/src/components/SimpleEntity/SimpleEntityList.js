@@ -3,7 +3,7 @@ import ActionsButtons from "../ActionsButtons";
 import { Row, Container, Button, Table, Spinner } from "react-bootstrap";
 import useModal from "../../hooks/useModal";
 import { useAxios } from "../../hooks/useAxios";
-import AddSimpleEntity from "../Forms/AddSimpleEntity";
+import AddSimpleEntity from "./AddSimpleEntity";
 
 export default function SimpleEntityList(props) {
   const { url, entityName } = props;

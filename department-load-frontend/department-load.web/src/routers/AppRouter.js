@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { /* BrowserRouter as*/ Router, Route, Switch } from "react-router-dom";
 import Header from "../components/Header";
 import NotFound from "../components/NotFound";
 import Container from "react-bootstrap/Container";
@@ -12,36 +12,51 @@ import {
   TeacherList,
   PersonalLoadList,
   PersonalStudyList,
-  SpecialityList
+  SpecialityList,
+  Home,
+  PrivateRoute
 } from "../components/index";
-import GroupLoadList from "../components/GroupLoad/GroupLoadList";
+import SignUpComponent from "../components/User/SignInComponent";
+import { UserContext } from "../contexts/UserContext";
+import history from "../history";
+import { useUser } from "../hooks";
 
 export default function AppRouter() {
+  const privateRoutes = [
+    { path: "/teachers", component: TeacherList },
+    { path: "/positions", component: Positions },
+    { path: "/disciplines", component: Disciplines },
+    { path: "/groupStudies", component: GroupStudies },
+    { path: "/specialities", component: SpecialityList },
+    // { path: "/groupLoads", component: GroupLoadList },
+    { path: "/personalLoads", component: PersonalLoadList },
+    { path: "/personalStudies", component: PersonalStudyList },
+    // { path: "/studyGroups", component: GroupList },
+    { path: "/home", component: Home }
+  ];
+
+  const userInfo = useUser();
+
   return (
-    <Router>
-      <Container>
+    <Router history={history}>
+      <UserContext.Provider value={userInfo}>
         <Header />
-        <Switch>
-          {/* <Route path="/" exact={true} component={Home} /> */}
-          <Route path="/teachers" component={TeacherList} exact={true} />
-          <Route path="/positions" exact={true} component={Positions} />
-          <Route path="/disciplines" exact={true} component={Disciplines} />
-          <Route path="/groupStudies" exact={true} component={GroupStudies} />
-          <Route path="/specialities" exact={true} component={SpecialityList} />
-          <Route path="/groupLoads" exact={true} component={GroupLoadList} />
-          <Route
-            path="/personalLoads"
-            exact={true}
-            component={PersonalLoadList}
-          />
-          <Route
-            path="/personalStudies"
-            exact={true}
-            component={PersonalStudyList}
-          />
-          <Route component={NotFound} />
-        </Switch>
-      </Container>
+        <Container style={{ marginTop: "10px" }}>
+          <Switch>
+            <Route path="/" exact={true} component={SignUpComponent} />
+            <Route path="/signin" exact={true} component={SignUpComponent} />
+            {privateRoutes.map(r => (
+              <PrivateRoute
+                key={r.path}
+                path={r.path}
+                exact={true}
+                component={r.component}
+              />
+            ))}
+            <Route component={NotFound} />
+          </Switch>
+        </Container>
+      </UserContext.Provider>
     </Router>
   );
 }

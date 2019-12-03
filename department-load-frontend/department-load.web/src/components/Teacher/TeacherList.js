@@ -1,6 +1,6 @@
 import React from "react";
 import { Row, Container, Button, Table, Spinner } from "react-bootstrap";
-import AddTeacher from "../Forms/AddTeacher";
+import AddTeacher from "./AddTeacher";
 import useModal from "../../hooks/useModal";
 import { useAxios } from "../../hooks/useAxios";
 import ActionsButtons from "../ActionsButtons";
@@ -14,6 +14,7 @@ export default function TeacherList() {
     updateTeacher,
     deleteTeacher
   ] = useAxios("teacher");
+
   const {
     isShowing,
     toggle,
